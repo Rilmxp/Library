@@ -1,4 +1,7 @@
 Pseudo:
+
+To do: - favicon.
+
 Title: My Library
 
 Files: 
@@ -38,3 +41,4 @@ Workflow:
 
 Footer:
     - My portoflio + github logo/links / Fontawesome
+

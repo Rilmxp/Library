@@ -28,14 +28,19 @@ h1 {
 }
 
 .trending {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 0px;
+  margin: 0 auto;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // margin-bottom: 0px;
   // width: 100%;
-  padding-top: 0.5rem;
-  border-top: 1px solid grey;
-  // border-bottom: 1px solid black;
+  padding: 0.5rem;
+  // border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+
+  & > p {
+    margin-bottom: 0px;
+  }
 }
 
 .input-group {
@@ -125,13 +130,17 @@ img {
 }
 
 .books-container-selected {
-  min-height: 60vh;
+  height: 60vh;
   // width: 60vw;
   display: flex;
   justify-content: center;
+  padding: 0.75rem 1rem 1rem 1rem;
+
+  // padding: 0.75rem;
   // align-items: center;
   // justify-content: center;
   flex-wrap: wrap;
+  overflow-y: auto;
 }
 
 .book-selected {
@@ -139,12 +148,17 @@ img {
   border-radius: 33px;
   @include shadow-style;
   width: 60vw;
-  height: 60vh;
+  // height: 60vh;
+  overflow: hidden;
 }
 
 .searchbox-books-container-selected {
   min-height: 80vh;
   width: 100%;
+}
+
+.plot {
+  margin: 1rem 0.5rem 1rem 0.5rem;
 }
 
 .snap {

@@ -51,13 +51,15 @@ selectedBook.addEventListener("click", function () {
   books.forEach((book) => {
     if (!book.classList.contains("selected-book")) book.style.display = "none";
   });
-  headline.innerHTML = "Your choice:";
+  headline.innerHTML = "<p>Your book of choice:</p>";
   const lorem =
-    "The Little Friend Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique reiciendis quo beatae ad fuga. Officiis, doloremque, quasi perspiciatis atque dolor explicabo nostrum aperiam eius vero pariatur molestias? Quos, provident beatae!";
-  createAndAttachElement("p", {}, "#book2", "afterend", lorem);
+    "The Little Friend Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique reiciendis quo beatae ad fuga. Officiis, doloremque, quasi perspiciatis atque dolor explicabo nostrum aperiam eius vero pariatur molestias? Quos, provident beatae! The Little Friend Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique reiciendis quo beatae ad fuga. Officiis, doloremque, quasi perspiciatis atque dolor explicabo nostrum aperiam eius vero pariatur molestias? Quos, provident beatae!";
+  createAndAttachElement("p", { class: "plot" }, "#book2", "afterend", lorem);
   booksContainer.className = "books-container-selected";
   selectedBook.className = "book-selected";
-  searchboxBooksContainer.className = "searchbox-books-container-selected";
+  searchboxBooksContainer.style.cssText = "min-height: 80vh";
+
+  // searchboxBooksContainer.className = "searchbox-books-container-selected";
 });
 
 /*
