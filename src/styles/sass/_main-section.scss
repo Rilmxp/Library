@@ -55,7 +55,7 @@ h1 {
   overflow: hidden;
   border: 1px solid black;
   cursor: pointer;
-  border-radius: 33px;
+  border-radius: 10px;
   @include shadow-style;
 
   &:hover {
@@ -68,6 +68,15 @@ h1 {
 
 .book-cover {
   height: 60%;
+  position: relative;
+}
+
+.book-cover-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 img {
@@ -102,14 +111,14 @@ img {
   // justify-content: center;
   align-items: center;
   text-align: center;
-  height: 15%;
-  border-bottom-left-radius: 33px;
-  border-bottom-right-radius: 33px;
+  height: 20%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   background-color: white;
 
-  p {
-    margin-bottom: 0px;
-  }
+  // p {
+  //   margin-bottom: 0px;
+  // }
 }
 
 /* SLIDER */
@@ -145,7 +154,7 @@ img {
 
 .book-selected {
   border: 1px solid black;
-  border-radius: 33px;
+  border-radius: 10px;
   @include shadow-style;
   width: 60vw;
   // height: 60vh;
@@ -167,4 +176,11 @@ img {
 
 .snap > * {
   scroll-snap-align: center;
+}
+
+.errorMessage {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 0;
 }

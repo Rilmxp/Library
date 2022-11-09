@@ -1,24 +1,46 @@
-import * as bootstrap from "bootstrap";
+// import * as bootstrap from "bootstrap";
+
+// font awesome imports
 import "../assets/fontawesome/css/fontawesome.css";
 import "../assets/fontawesome/css/brands.css";
 import "../assets/fontawesome/css/solid.css";
 import "../styles/sass/styles.scss";
-import goldfinch from "../assets/img/goldfinch.jpg";
+
+// pics imports
+import cover_default from "../assets/img/cover_default.jpg";
+// import goldfinch from "../assets/img/goldfinch.jpg";
 import friend from "../assets/img/friend.jpg";
 import history from "../assets/img/history.jpg";
 
 // javascript imports
-import createAndAttachElement from "./pageCreation.js";
+import { createAndAttachElement, createBook } from "./page-creation.js";
+import { trendingBooks } from "./http-requests";
+
+let booksContainer = document.querySelector(".books-container");
+
+trendingBooks();
+// const trendingBooksList = trendingBooks();
+
+// for (const book in trendingBooksList) {
+//   console.log(book.title, book.author_id, book.cover_i);
+//   createBook(book.title, book.author_name, book.cover_i);
+// }
+// trendingBooksList.forEach(book => {
+//   createBook(trending)
+// }
+
+// createBook("My Book", "richard Lucas", 1245, booksContainer);
 
 import bookshelf from "../assets/img/bookshelf.jpg";
 
-console.log(bookshelf);
+// console.log(bookshelf);
+// const coverDefault = cover_default;
 const pic1 = document.querySelector(".book-cover img");
 const pic2 = document.querySelector("#friend");
 const pic3 = document.querySelector("#history");
 // console.log(bookshelfPic);
-pic1.src = goldfinch;
-pic2.src = friend;
+pic1.src = cover_default;
+// pic2.src = friend;
 pic3.src = history;
 
 // to place viewer at the center of books.
@@ -37,15 +59,14 @@ let headline = document.querySelector(".trending");
 
 let selectedBook = document.querySelector("#book2");
 selectedBook.classList.add("selected-book");
-console.log(selectedBook);
+// console.log(selectedBook);
 
 let searchboxBooksContainer = document.querySelector(
   ".searchbox-books-container"
 );
-let booksContainer = document.querySelector(".books-container");
 
 let books = document.querySelectorAll(".book");
-console.log(books);
+// console.log(books);
 
 selectedBook.addEventListener("click", function () {
   books.forEach((book) => {

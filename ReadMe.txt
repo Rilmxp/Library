@@ -1,6 +1,7 @@
 Pseudo:
 
 To do: - favicon.
+       - deal with long text-space in container
 
 Title: My Library
 
@@ -42,3 +43,5 @@ Workflow:
 Footer:
     - My portoflio + github logo/links / Fontawesome
 
+
+on title section: remove flex, add overflow:ellipsis.
