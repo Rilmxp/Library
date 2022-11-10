@@ -18,7 +18,7 @@ import { trendingBooks } from "./http-requests";
 
 let booksContainer = document.querySelector(".books-container");
 
-trendingBooks();
+// trendingBooks();
 // const trendingBooksList = trendingBooks();
 
 // for (const book in trendingBooksList) {
@@ -44,14 +44,14 @@ pic1.src = cover_default;
 pic3.src = history;
 
 // to place viewer at the center of books.
-window.onload = function () {
-  let aboutUs = document.querySelector("#book2");
-  aboutUs.scrollIntoView({
-    block: "center",
-    inline: "center",
-    behavior: "auto",
-  });
-};
+// window.onload = function () {
+//   let aboutUs = document.querySelector("#book2");
+//   aboutUs.scrollIntoView({
+//     block: "center",
+//     inline: "center",
+//     behavior: "auto",
+//   });
+// };
 
 // Move element on click
 
@@ -83,34 +83,30 @@ selectedBook.addEventListener("click", function () {
   // searchboxBooksContainer.className = "searchbox-books-container-selected";
 });
 
-/*
+booksContainer.addEventListener("click", function (event) {
+  let target = event.target.closest(".book");
 
-// H1 Title
-createAndAttachElement("h1", {}, "body", "beforeend", "Library");
+  if (!target) return;
 
-// Searchbox
-createAndAttachElement(
-  "input",
-  {
-    class: "form-control form-control-lg",
-    type: "text",
-    placeholder: "Book subject",
-    "aria-label": "Book subject",
-  },
-  "body",
-  "beforeend",
-  ""
-);
+  let books = document.querySelectorAll(".book");
+  target.classList.add(".selected");
 
-// Footer
-createAndAttachElement(
-  "footer",
-  {
-    style: "background-color: beige",
-  },
-  "body",
-  "beforeend",
-  "This is the footer"
-);
+  books.forEach((book) => {
+    if (!book.classList.contains("selected")) book.style.display = "none";
+  });
 
-*/
+  const lorem =
+    "The Little Friend Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique reiciendis quo beatae ad fuga. Officiis, doloremque, quasi perspiciatis atque dolor explicabo nostrum aperiam eius vero pariatur molestias? Quos, provident beatae! The Little Friend Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique reiciendis quo beatae ad fuga. Officiis, doloremque, quasi perspiciatis atque dolor explicabo nostrum aperiam eius vero pariatur molestias? Quos, provident beatae!";
+  createAndAttachElement(
+    "p",
+    { class: "plot" },
+    ".selected",
+    "afterend",
+    lorem
+  );
+
+  // console.log(event.target.closest(".book"));
+  booksContainer.className = "books-container-selected";
+  // target.style.height = "";
+  searchboxBooksContainer.style.cssText = "min-height: 80vh";
+});

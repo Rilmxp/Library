@@ -43,6 +43,49 @@ h1 {
   }
 }
 
+.loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    animation: fade 1.25s ease alternate infinite;
+  }
+  // background: blue;
+}
+
+.spinner {
+  width: 75px;
+  height: 75px;
+  border: 15px solid rgba(227, 221, 221, 0.479);
+  border-top-color: #6e6e73;
+  border-radius: 50%;
+  animation: loading 1s linear infinite;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .input-group {
   width: 75%;
   margin: 0 auto;
@@ -57,6 +100,8 @@ h1 {
   cursor: pointer;
   border-radius: 10px;
   @include shadow-style;
+
+  animation: fade 1s ease reverse;
 
   &:hover {
     margin-top: -10px;
@@ -94,7 +139,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  // overflow: hidden;
   width: 100%;
   height: 20%;
   // border-top: 1px solid black;
@@ -102,13 +147,23 @@ img {
   background-color: white;
   // position: relative;
   text-align: center;
-  margin: 1px 2px 0px 1px;
-  font-weight: bold;
+  // margin: 1px 2px 0px 1px;
+
+  h6 {
+    font-weight: bold;
+
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    padding: 0rem 0.3rem;
+    margin: 0px;
+  }
 }
 
 .book-author {
   display: flex;
-  // justify-content: center;
+  justify-content: center;
   align-items: center;
   text-align: center;
   height: 20%;
@@ -116,14 +171,20 @@ img {
   border-bottom-right-radius: 10px;
   background-color: white;
 
-  // p {
-  //   margin-bottom: 0px;
-  // }
+  p {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    padding: 0.3rem;
+    margin: 0px;
+  }
 }
 
 /* SLIDER */
 
 .books-container {
+  position: relative;
   height: 60vh;
 
   display: grid;
@@ -178,7 +239,7 @@ img {
   scroll-snap-align: center;
 }
 
-.errorMessage {
+.error-message {
   display: flex;
   text-align: center;
   align-items: center;

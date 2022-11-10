@@ -44,4 +44,4 @@ Footer:
     - My portoflio + github logo/links / Fontawesome
 
 
-on title section: remove flex, add overflow:ellipsis.
+history of Johnsson county author undefined.

@@ -32,16 +32,20 @@ function createBook(
   message = false
 ) {
   const html = `
-  <div class="book" id="book1">
-      <h2 class="book-title">${title}</h2>
-      <div class="book-cover">
-        <img src=${imgId} alt="book cover" id="goldfinch">
-        <div class="book-cover-message" style="display:${
-          message == true ? "" : "none"
-        }">Book cover not available
-        </div>
+  <div class="book book-fade-in" id="book1">
+    <div class="book-title">
+      <h6>${title}</h6>
+    </div>
+    <div class="book-cover">
+      <img src=${imgId} alt="book cover" id="goldfinch">
+      <div class="book-cover-message" style="display:${
+        message == true ? "" : "none"
+      }">Book cover not available
       </div>
-    <footer class="book-author">${author}</footer>
+    </div>
+    <footer class="book-author">
+      <p>${author}</p>
+    </footer>
   </div>
   `;
   attachTo.insertAdjacentHTML("beforeend", html);

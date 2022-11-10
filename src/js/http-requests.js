@@ -2,11 +2,13 @@
 
 import axios from "axios";
 import { createBook, createAndAttachElement } from "./page-creation";
-import cover_default from "../assets/img/cover_default.jpg";
+import cover_default from "../assets/img/cover_default_small.jpg";
 
 let booksContainer = document.querySelector(".books-container");
+let loader = document.querySelector(".loader");
 
 function trendingBooks() {
+  // loader.style.display = "";
   axios
     .get("https://openlibrary.org/trending/now.json")
     .then((res) => {
@@ -15,6 +17,7 @@ function trendingBooks() {
       return books;
     })
     .then((books) => {
+      loader.style.display = "none";
       books.forEach((book) => {
         /// DO NOT TOUCH ////
 
@@ -37,11 +40,11 @@ function trendingBooks() {
 
           axios
             .get(
-              `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg?default=false`
+              `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg?default=false`
             )
             .then((res) => {
               // create book with cover, if fetched
-              coverLink = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+              coverLink = `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`;
               createBook(
                 book.title,
                 book.author_name,
@@ -66,7 +69,7 @@ function trendingBooks() {
       if (error.response || error.request) {
         createAndAttachElement(
           "div",
-          { class: "errorMessage" },
+          { class: "error-message" },
           ".books-container",
           "afterbegin",
           "Books data currently unavailable. Please try again later"
@@ -79,7 +82,7 @@ function trendingBooks() {
 
 function BookDataHandler(book) {
   if (!book.title) book.title = "Book title unavailable";
-  if (!book.author) book.author = "Book author unavailable";
+  if (!book.author_name) book.author_name = "Book author unavailable";
   if (!book.cover_i) book.cover_i = cover_default;
 
   return book;
