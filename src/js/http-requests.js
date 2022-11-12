@@ -6,14 +6,15 @@ import cover_default from "../assets/img/cover_default_small.jpg";
 
 let booksContainer = document.querySelector(".books-container");
 let loader = document.querySelector(".loader");
+let booksLoaded = false;
 
 function trendingBooks() {
   // loader.style.display = "";
   axios
-    .get("https://openlibrary.org/trending/now.json")
+    .get("https://openlibrary.org/trending/daily.json")
     .then((res) => {
       const books = res.data.works;
-      console.log(books);
+      console.log(books.length);
       return books;
     })
     .then((books) => {
@@ -75,6 +76,11 @@ function trendingBooks() {
           "Books data currently unavailable. Please try again later"
         );
       }
+    })
+    .then((res) => {
+      console.log("inside loop before", booksLoaded);
+      booksLoaded = true;
+      console.log("inside loop", booksLoaded);
     });
 }
 
@@ -88,51 +94,4 @@ function BookDataHandler(book) {
   return book;
 }
 
-export { trendingBooks };
-
-////////////////////////////////////////////////////////////////////////////////
-
-/* WORKS
-
-function trendingBooks() {
-  axios.get("https://openlibrary.org/trending/now.json").then((res) => {
-    // error cannot get data
-
-    // if (error.response);
-    const books = res.data.works;
-    // console.log(books);
-    // return books;
-
-    books.forEach((book) => {
-      let coverLink = null;
-
-      /// DO NOT TOUCH ////
-
-      if (!book.cover_i) {
-        console.log("no cover");
-        createBook(book.title, book.author_name, booksContainer, cover_default);
-      }
-
-      //////////////////////////////
-      // else {
-      ///// SEE RETURN   ////
-      if (book.cover_i) {
-        axios
-          .get(
-            `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg?default=false`
-          )
-          .then((res) => {
-            console.log(res);
-            coverLink = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
-            createBook(book.title, book.author_name, booksContainer, coverLink);
-          });
-      }
-    });
-  });
-}
-
-export { trendingBooks };
-
-*/
-
-//////////////////////////////////////////////////////////////////
+export { trendingBooks, booksLoaded };

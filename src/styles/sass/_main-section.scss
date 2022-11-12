@@ -29,6 +29,7 @@ h1 {
 
 .trending {
   margin: 0 auto;
+  opacity: 1;
   // display: flex;
   // justify-content: center;
   // align-items: center;
@@ -37,6 +38,10 @@ h1 {
   padding: 0.5rem;
   // border-top: 1px solid grey;
   border-bottom: 1px solid grey;
+  // animation: fade 1s ease reverse;
+  // transition: fade 1s ease reverse;
+  // transition: opacity 3s;
+  transition: opacity 1s ease;
 
   & > p {
     margin-bottom: 0px;
@@ -53,9 +58,8 @@ h1 {
   align-items: center;
 
   p {
-    animation: fade 1.25s ease alternate infinite;
+    animation: fade-in 1.25s ease alternate infinite;
   }
-  // background: blue;
 }
 
 .spinner {
@@ -77,13 +81,26 @@ h1 {
   }
 }
 
-@keyframes fade {
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
   from {
     opacity: 1;
   }
   to {
     opacity: 0;
   }
+}
+
+.fade-out {
+  animation: fade-out 1s ease;
 }
 
 .input-group {
@@ -101,7 +118,8 @@ h1 {
   border-radius: 10px;
   @include shadow-style;
 
-  animation: fade 1s ease reverse;
+  animation: fade-in 1s ease;
+  // transition: opacity 3s ease;
 
   &:hover {
     margin-top: -10px;
