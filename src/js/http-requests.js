@@ -8,13 +8,16 @@ let booksContainer = document.querySelector(".books-container");
 let loader = document.querySelector(".loader");
 let booksLoaded = false;
 
-function trendingBooks() {
-  // loader.style.display = "";
+// fetch daily trending books.
+function fetchDailyTrendingBooks() {
+  loader.style.display = "";
   axios
-    .get("https://openlibrary.org/trending/daily.json")
+    .get("https://openlibrary.org/trending/now.json")
     .then((res) => {
       const books = res.data.works;
-      console.log(books.length);
+      console.log(books);
+      // console.log(books);
+      // console.log(books.length);
       return books;
     })
     .then((books) => {
@@ -68,6 +71,7 @@ function trendingBooks() {
     })
     .catch((error) => {
       if (error.response || error.request) {
+        loader.style.display = "none";
         createAndAttachElement(
           "div",
           { class: "error-message" },
@@ -76,12 +80,34 @@ function trendingBooks() {
           "Books data currently unavailable. Please try again later"
         );
       }
-    })
-    .then((res) => {
-      console.log("inside loop before", booksLoaded);
-      booksLoaded = true;
-      console.log("inside loop", booksLoaded);
     });
+}
+
+// fetch books by subject
+
+function fetchBooksBySubject() {
+  axios
+    .get("https://openlibrary.org/subjects/fantasy.json")
+    .then((res) => {
+      const books = res.data.works;
+
+      console.log("Subject", books);
+      console.log("title", books[0].title);
+      console.log("work_key", books[0].key);
+      console.log("cover_id", books[0].cover_id);
+
+      books[0].authors.forEach((author) => console.log("authors", author.name));
+
+      return books;
+    })
+    .then((books) => {});
+}
+
+function fetchBookDescription() {
+  axios.get("https://openlibrary.org/works/OL45804W.json").then((res) => {
+    const bookInfo = res.data;
+    console.log("description", bookInfo.description);
+  });
 }
 
 /// Handling of missing data for each book
@@ -94,4 +120,9 @@ function BookDataHandler(book) {
   return book;
 }
 
-export { trendingBooks, booksLoaded };
+export {
+  fetchDailyTrendingBooks,
+  fetchBooksBySubject,
+  fetchBookDescription,
+  booksLoaded,
+};

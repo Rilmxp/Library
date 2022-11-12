@@ -110,9 +110,10 @@ h1 {
 
 .book {
   // position: relative;
+  overflow: hidden;
   height: 100%;
   width: 60vw;
-  overflow: hidden;
+  // overflow: hidden;
   border: 1px solid black;
   cursor: pointer;
   border-radius: 10px;
@@ -165,6 +166,7 @@ img {
   background-color: white;
   // position: relative;
   text-align: center;
+  border-radius: inherit;
   // margin: 1px 2px 0px 1px;
 
   h6 {
@@ -237,7 +239,7 @@ img {
   @include shadow-style;
   width: 60vw;
   // height: 60vh;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .searchbox-books-container-selected {
@@ -246,7 +248,10 @@ img {
 }
 
 .plot {
-  margin: 1rem 0.5rem 1rem 0.5rem;
+  margin: 1rem 0.5rem 1rem -10vw;
+  width: 80vw;
+  // margin-left: -10vw;
+  text-align: center;
 }
 
 .snap {

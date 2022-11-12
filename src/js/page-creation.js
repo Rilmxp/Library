@@ -3,7 +3,7 @@
 // creates an element and attatches it to another one.
 // args tagName = "string", attributes = {prop:"string"}, attachTo = "css selector", position = "string" (as per insertAdjacentElement), content = "string".
 
-import cover_default from "../assets/img/cover_default.jpg";
+import cover_default from "../assets/img/cover_default_small.jpg";
 
 function createAndAttachElement(
   tagName,
@@ -37,15 +37,15 @@ function createBook(
       <h6>${title}</h6>
     </div>
     <div class="book-cover">
-      <img src=${imgId} alt="book cover" id="goldfinch">
+      <img loading="lazy" src=${imgId} alt="book cover" id="goldfinch">
       <div class="book-cover-message" style="display:${
         message == true ? "" : "none"
       }">Book cover not available
       </div>
     </div>
-    <footer class="book-author">
+    <div class="book-author">
       <p>${author}</p>
-    </footer>
+    </div>
   </div>
   `;
   attachTo.insertAdjacentHTML("beforeend", html);
