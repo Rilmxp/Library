@@ -23,13 +23,13 @@ function createAndAttachElement(
 
 // create book element
 
-// params title = "string", author "string", imgId = "imgage url", message = boolean
+// params title = "string", author "string", imgUrl = "imgage url", message = boolean
 function createBook(
   title,
   author,
   attachTo,
-  imgId = cover_default,
-  message = false
+  imgUrl
+  // message = false
 ) {
   const html = `
   <div class="book book-fade-in" id="book1">
@@ -37,9 +37,9 @@ function createBook(
       <h6>${title}</h6>
     </div>
     <div class="book-cover">
-      <img loading="lazy" src=${imgId} alt="book cover" id="goldfinch">
+      <img loading="lazy" src=${imgUrl} alt="book cover" id="goldfinch">
       <div class="book-cover-message" style="display:${
-        message == true ? "" : "none"
+        imgUrl == cover_default ? "" : "none"
       }">Book cover not available
       </div>
     </div>

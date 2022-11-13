@@ -26,7 +26,7 @@ import {
 let booksContainer = document.querySelector(".books-container");
 
 fetchDailyTrendingBooks();
-fetchBooksBySubject();
+// fetchBooksBySubject();
 // fetchBookDescription();
 // const trendingBooksList = trendingBooks();
 

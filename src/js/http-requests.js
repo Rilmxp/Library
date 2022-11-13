@@ -3,11 +3,13 @@
 import axios from "axios";
 import { createBook, createAndAttachElement } from "./page-creation";
 import cover_default from "../assets/img/cover_default_small.jpg";
+import { Resolver } from "webpack";
 
 let booksContainer = document.querySelector(".books-container");
 let loader = document.querySelector(".loader");
-let booksLoaded = false;
+// let booksLoaded = false;
 
+/*
 // fetch daily trending books.
 function fetchDailyTrendingBooks() {
   loader.style.display = "";
@@ -82,9 +84,69 @@ function fetchDailyTrendingBooks() {
       }
     });
 }
+*/
+
+//////////////////////////////////////////
+/////////////////////////////////////////
+/// REFACTORING  ////
+
+function fetchDailyTrendingBooks() {
+  loader.style.display = "";
+  axios
+    .get("https://openlibrary.org/trending/now.json")
+    .then((res) => {
+      const books = res.data.works;
+      console.log(books);
+      // console.log(books);
+      // console.log(books.length);
+      return books;
+    })
+    .then((books) => {
+      loader.style.display = "none";
+
+      books.forEach((book) => {
+        /// DO NOT TOUCH ////
+
+        // check for missing data
+        let bookDataHandled = bookDataHandler(book);
+        console.log("bookdatahandled", bookDataHandled);
+        // handle and fetch cover image and create book HTML element
+
+        // console.log(bookCoverHandler);
+
+        bookCoverHandler(bookDataHandled).then(() => {
+          // console.log("insideCoverHandler", bookDataHandled);
+          createBook(
+            bookDataHandled.title,
+            bookDataHandled.author_name,
+            booksContainer,
+            bookDataHandled.cover_i
+          );
+        });
+
+        // createBook(
+        //   bookCoverHandled.title,
+        //   bookCoverHandled.author_name,
+        //   booksContainer,
+        //   bookCoverHandled.cover_i
+        // );
+      });
+    })
+    .catch((error) => {
+      if (error.response || error.request) {
+        loader.style.display = "none";
+        createAndAttachElement(
+          "div",
+          { class: "error-message" },
+          ".books-container",
+          "afterbegin",
+          "Books data currently unavailable. Please try again later"
+        );
+      }
+    });
+}
 
 // fetch books by subject
-
 function fetchBooksBySubject() {
   axios
     .get("https://openlibrary.org/subjects/fantasy.json")
@@ -100,9 +162,12 @@ function fetchBooksBySubject() {
 
       return books;
     })
-    .then((books) => {});
+    .then((books) => {
+      books.forEach;
+    });
 }
 
+// fetch book description
 function fetchBookDescription() {
   axios.get("https://openlibrary.org/works/OL45804W.json").then((res) => {
     const bookInfo = res.data;
@@ -111,8 +176,7 @@ function fetchBookDescription() {
 }
 
 /// Handling of missing data for each book
-
-function BookDataHandler(book) {
+function bookDataHandler(book) {
   if (!book.title) book.title = "Book title unavailable";
   if (!book.author_name) book.author_name = "Book author unavailable";
   if (!book.cover_i) book.cover_i = cover_default;
@@ -120,9 +184,56 @@ function BookDataHandler(book) {
   return book;
 }
 
-export {
-  fetchDailyTrendingBooks,
-  fetchBooksBySubject,
-  fetchBookDescription,
-  booksLoaded,
-};
+// handling and fetching of book cover
+function bookCoverHandler(book) {
+  if (book.cover_i !== cover_default) {
+    // console.log("no cover");
+
+    //  // createBook(
+    //   //   book.title,
+    //   //   book.author_name,
+    //   //   booksContainer,
+    //   //   cover_default
+    //   //   // true
+    //   // );
+
+    // let coverLink;
+
+    return (
+      axios
+        .get(
+          `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg?default=false`
+        )
+        .then((res) => {
+          let coverLink;
+
+          if (book.cover_i == cover_default) {
+            coverLink = cover_default;
+          } else {
+            // console.log();
+            // console.log(book);
+            // console.log("before", book.cover_i);
+            // create book with cover, if fetched
+            coverLink = `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`;
+            book.cover_i = coverLink;
+          }
+          // console.log("after", book.cover_i);
+          // console.log(book);
+          // createBook(book.title, book.author_name, booksContainer, coverLink);
+        })
+        // image not found (error 403), create book with default cover
+        .catch((error) => {
+          book.cover_i = cover_default;
+          // createBook(
+          //   book.title,
+          //   book.author_name,
+          //   booksContainer,
+          //   cover_default
+          //   // true
+          // );
+        })
+    );
+  }
+}
+
+export { fetchDailyTrendingBooks, fetchBooksBySubject, fetchBookDescription };

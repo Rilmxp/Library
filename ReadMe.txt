@@ -46,3 +46,4 @@ Footer:
 
 history of Johnsson county author undefined.
 change trending/your book selection/subject
+space after comma in authors.

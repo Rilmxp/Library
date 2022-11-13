@@ -29,6 +29,7 @@ body {
   font-family: "Source Sans Pro", sans-serif;
   min-height: 100vh;
   overscroll-behavior-inline: contain;
+  overflow: hidden;
 }
 
 @mixin shadow-style {
