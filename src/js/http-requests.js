@@ -92,7 +92,7 @@ function fetchDailyTrendingBooks() {
 function fetchDailyTrendingBooks() {
   loader.style.display = "";
   axios
-    .get("https://openlibrary.org/trending/daily.json")
+    .get("https://openlibrary.org/trending/now.json")
     .then((res) => {
       const books = res.data.works;
       console.log(books);
@@ -108,13 +108,13 @@ function fetchDailyTrendingBooks() {
 
         // check for missing data
         // let bookDataHandled =
-        bookDataHandler(book, false).then(() => {
-          console.log(book.author_name);
+        bookDataHandler(book).then(() => {
+          // console.log(book.author_name);
           createBook(
             book.title,
-            book.author_name,
+            book.customAuthorsProp,
             booksContainer,
-            book.cover_i
+            book.customCoverLinkProp
           );
         });
         // console.log("bookdatahandled", book);
@@ -174,8 +174,13 @@ function fetchBooksBySubject() {
         // check for missing data
         // let bookDataHandled =
         // true for author objects
-        bookDataHandler(book, true).then(() => {
-          createBook(book.title, book.authors, booksContainer, book.cover_i);
+        bookDataHandler(book).then(() => {
+          createBook(
+            book.title,
+            book.customAuthorsProp,
+            booksContainer,
+            book.customCoverLinkProp
+          );
         });
       });
     })
@@ -207,59 +212,70 @@ function fetchBooksBySubject() {
 }
 
 // fetch book description
-function fetchBookDescription() {
-  axios.get("https://openlibrary.org/works/OL45804W.json").then((res) => {
-    const bookInfo = res.data;
-    console.log("description", bookInfo.description);
-  });
+function fetchBookDescription(book) {
+  axios
+    .get(`https://openlibrary.org/works/${book.key}.json`)
+    .then((response) => {
+      const bookInfo = response.data;
+      // console.log("description", bookInfo.description);
+    });
 }
 
 /// Handling of missing data for each book
 // NOTE: sometimes authors are given back as an object, trending param = true in this case.
 function bookDataHandler(book, subject) {
   return new Promise(function (resolve, reject) {
-    if (!book.title) book.title = "Book title unavailable";
+    // title
+    if (!book.title) book.title = "Book title not available";
 
-    let authorsList = book.authors ?? book.author_name;
-    book.authorsList = authorsList;
-    console.log(book);
+    // authors
+    let customAuthorsProp = book.authors ?? book.author_name;
+    book.customAuthorsProp = customAuthorsProp;
 
-    // authorsList = null;
-    if (!authorsList) book.authorsList = "Book author unavailable";
+    if (!book.customAuthorsProp)
+      book.customAuthorsProp = "Book author not available";
 
-    // work with book.authors [{}]
-    // if (subject == true) {
-    //   if (!book.authors) {
-    //     book.authors = "Book author not available";
-    //   } else {
-    //     let authors = [];
-    //     for (let author of book.authors) {
-    //       authors.push(author.name);
-    //       console.log(author.name);
-    //       book.authors = authors;
-    //       console.log("authors array", authors);
-    //     }
-    //   }
-    // }
+    if (book.authors) {
+      for (let i = 0; i < book.authors.length; i++) {
+        customAuthorsProp[i] = book.authors[i].name;
+      }
+    }
 
-    // work with book.author_name []
-    // if (subject == false) {
-    //   if (!book.author_name) {
-    //     book.author_name = "Book author not available";
-    //   }
-    // }
+    // book.customAuthorsProp = book.customAuthorsProp.join(", ");
+
+    if (
+      Array.isArray(book.customAuthorsProp) &&
+      book.customAuthorsProp.length > 1
+    ) {
+      book.customAuthorsProp = book.customAuthorsProp.join(", ");
+      // console.log("final", book);
+    }
 
     // book cover
-    if (!book.cover_i) {
-      book.cover_i = cover_default;
+    let customCoverLinkProp = book.cover_id ?? book.cover_i;
+    book.customCoverLinkProp = customCoverLinkProp;
+
+    if (!book.customCoverLinkProp) {
+      book.customCoverLinkProp = cover_default;
       resolve(book);
     } else {
-      console.log(book);
+      // console.log(book);
       fetchBookCover(book).then(() => {
-        console.log(book);
+        // console.log(book);
         resolve(book);
       });
     }
+
+    // if (!book.cover_i) {
+    //   book.cover_i = cover_default;
+    //   resolve(book);
+    // } else {
+    //   console.log(book);
+    //   fetchBookCover(book).then(() => {
+    //     console.log(book);
+    //     resolve(book);
+    //   });
+    // }
   });
 }
 
@@ -268,18 +284,18 @@ function fetchBookCover(book) {
   return (
     axios
       .get(
-        `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg?default=false`
+        `https://covers.openlibrary.org/b/id/${book.customCoverLinkProp}-L.jpg?default=false`
       )
       .then((response) => {
-        let coverLink;
+        // let coverLink;
 
-        coverLink = `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`;
-        book.cover_i = coverLink;
+        book.customCoverLinkProp = `https://covers.openlibrary.org/b/id/${book.customCoverLinkProp}-L.jpg`;
+        // book.customCoverLinkProp = coverLink;
         // return book;
       })
       // image not found (error 403), create book with default cover
       .catch((error) => {
-        book.cover_i = cover_default;
+        book.customCoverLinkProp = cover_default;
       })
   );
 }

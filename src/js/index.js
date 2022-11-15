@@ -25,6 +25,7 @@ import {
 
 let booksContainer = document.querySelector(".books-container");
 
+//     console.log(book);
 // fetchDailyTrendingBooks();
 fetchBooksBySubject();
 // fetchBookDescription();
@@ -72,7 +73,7 @@ let searchboxBooksContainer = document.querySelector(
 
 booksContainer.addEventListener("click", function (event) {
   // console.log("inside click", booksLoaded);
-  // console.log("book count", document.querySelectorAll(".book").length);
+  console.log("book count", document.querySelectorAll(".book").length);
   // if (booksLoaded == false) return;
   // if (document.querySelectorAll(".book").length < 50) return;
 
