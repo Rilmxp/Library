@@ -4,6 +4,7 @@
 // args tagName = "string", attributes = {prop:"string"}, attachTo = "css selector", position = "string" (as per insertAdjacentElement), content = "string".
 
 import cover_default from "../assets/img/cover_default_small.jpg";
+import { booksContainer } from "./index";
 
 function createAndAttachElement(
   tagName,
@@ -23,14 +24,8 @@ function createAndAttachElement(
 
 // create book element
 
-// params title = "string", author "string", imgUrl = "imgage url", message = boolean
-function createBook(
-  title,
-  author,
-  attachTo,
-  imgUrl
-  // message = false
-) {
+// params title = "string", author "string", imgUrl = "imgage url",
+function createBook(title, author, attachTo, imgUrl) {
   const html = `
   <div class="book book-fade-in" id="book1">
     <div class="book-title">
@@ -51,4 +46,21 @@ function createBook(
   attachTo.insertAdjacentHTML("beforeend", html);
 }
 
-export { createAndAttachElement, createBook };
+// Creates loader spinner to be placed always in the bookscontainer during loading of books. if remove === true, loader will be remove
+
+function createLoader(remove = false) {
+  if (remove === true) {
+    const loader = document.querySelector(".loader");
+    loader.style.display = "none";
+    document.querySelector(".loader").remove();
+  } else {
+    const html = `
+  <div class="loader">
+    <div class="spinner"></div>
+    <p>Loading books...</p>
+  </div>`;
+    booksContainer.insertAdjacentHTML("afterbegin", html);
+  }
+}
+
+export { createAndAttachElement, createBook, createLoader };

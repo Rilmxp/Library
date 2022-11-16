@@ -38,12 +38,9 @@ Workflow:
                                 
                     - if failure:
                         - pop up. Pls try again later.
-
-
+                        
 Footer:
     - My portoflio + github logo/links / Fontawesome
 
-
-history of Johnsson county author undefined.
 change trending/your book selection/subject
-space after comma in authors.
+evaluate descripotion text-align: left or center.
