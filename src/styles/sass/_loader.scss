@@ -1,0 +1,32 @@
+@keyframes loading {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    animation: fade-in 1.25s ease alternate infinite;
+  }
+}
+
+.spinner {
+  width: 75px;
+  height: 75px;
+  border: 15px solid rgba(227, 221, 221, 0.479);
+  border-top-color: #6e6e73;
+  border-radius: 50%;
+  animation: loading 1s linear infinite;
+  margin-bottom: 0.5rem;
+}

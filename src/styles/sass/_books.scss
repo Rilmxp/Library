@@ -1,3 +1,83 @@
-// .books-container {
-//   height: 60vh;
-// }
+// BOOKS //
+
+.book {
+  overflow: hidden;
+  height: 100%;
+  width: 60vw;
+  border: 1px solid black;
+  cursor: pointer;
+  border-radius: 10px;
+  @include shadow-style;
+
+  animation: fade-in 1s ease;
+
+  &:hover {
+    margin-top: -10px;
+    opacity: 0.9;
+    border: 2px solid black;
+  }
+}
+
+.book-cover {
+  height: 60%;
+  position: relative;
+
+  .book-cover-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  img {
+    // width: 100%;
+    inline-size: 100%;
+    // object-fit: cover;
+    height: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+  }
+}
+
+.book-title {
+  @include center-content;
+  font-size: 1rem;
+
+  width: 100%;
+  height: 20%;
+  border-radius: inherit;
+
+  h6 {
+    @include book-author-title-overflow;
+    font-weight: bold;
+  }
+}
+
+.book-author {
+  @include center-content;
+  height: 20%;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+
+  p {
+    @include book-author-title-overflow;
+  }
+}
+
+.book-description {
+  margin: 1rem 10vw 1rem -10vw;
+  width: 80vw;
+  text-align: left;
+  white-space: pre-wrap;
+  font: inherit;
+  word-wrap: break-word;
+}
+
+.book-selected {
+  // border: 1px solid black;
+  // border-radius: 10px;
+  // @include shadow-style;
+  // width: 60vw;
+  overflow: visible;
+}

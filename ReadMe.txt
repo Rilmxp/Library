@@ -44,3 +44,4 @@ Footer:
 
 change trending/your book selection/subject
 evaluate descripotion text-align: left or center.
+check clicking on the spinner before loading books goes blank.

@@ -1,5 +1,7 @@
 "use strict";
 
+// CONTAINS ALL FUNCTIONS AND DATA HANDLING RELATED TO HTTP REQUESTS //
+
 import axios from "axios";
 import {
   createBook,
@@ -9,36 +11,27 @@ import {
 import cover_default from "../assets/img/cover_default_small.jpg";
 
 let booksContainer = document.querySelector(".books-container");
-let loader = document.querySelector(".loader");
 let activeBooks;
-// let booksLoaded = false;
-
-//////////////////////////////////////////
-/////////////////////////////////////////
-/// REFACTORING  ////
 
 // fetch daily trending books.
 function fetchDailyTrendingBooks() {
-  // loader.style.display = "";
+  // shows loader spinner
   createLoader();
+
   axios
-    .get("https://openlibrary.org/trending/now.json")
+    .get("https://openlibrary.org/trending/daily.json")
     .then((res) => {
       const books = res.data.works;
-      console.log(books);
-      // console.log(books);
-      // console.log(books.length);
       activeBooks = books;
       return books;
     })
     .then((books) => {
-      // loader.style.display = "none";
-      createLoader(true);
+      //remove loader
+      createLoader(false);
 
       books.forEach((book) => {
         // check for missing data
         bookDataHandler(book).then(() => {
-          // console.log(book.author_name);
           createBook(
             book.title,
             book.customAuthorsProp,
@@ -50,7 +43,7 @@ function fetchDailyTrendingBooks() {
     })
     .catch((error) => {
       if (error.response || error.request) {
-        loader.style.display = "none";
+        createLoader(false);
         createAndAttachElement(
           "div",
           { class: "error-message" },
@@ -69,19 +62,13 @@ function fetchBooksBySubject() {
     .get("https://openlibrary.org/subjects/historical_fiction.json")
     .then((res) => {
       const books = res.data.works;
-      console.log(books);
       activeBooks = books;
       return books;
     })
     .then((books) => {
-      // loader.style.display = "none";
-      createLoader(true);
+      createLoader(false);
 
       books.forEach((book) => {
-        // console.log("cover_id", book.cover_id);
-
-        /// DO NOT TOUCH ////
-
         // check for missing data
         bookDataHandler(book).then(() => {
           createBook(
@@ -95,7 +82,7 @@ function fetchBooksBySubject() {
     })
     .catch((error) => {
       if (error.response || error.request) {
-        loader.style.display = "none";
+        createLoader(false);
         createAndAttachElement(
           "div",
           { class: "error-message" },
@@ -108,30 +95,29 @@ function fetchBooksBySubject() {
 }
 
 // fetch book description
+// description is sent back either as [] or {}
 function fetchBookDescription() {
-  // console.log("active books", activeBooks);
   let bookTitle = document.querySelector(
     ".book-selected .book-title"
   ).innerText;
   let bookDescription;
 
+  // use book title to find book and its key to fetch description
   for (let activeBook of activeBooks) {
-    // console.log(activeBook);
     if (activeBook.title === bookTitle) {
       console.log("activeBook", activeBook.key, activeBook.title);
 
       axios
         .get(`https://openlibrary.org${activeBook.key}.json`)
         .then((response) => {
-          // console.log("response 1st", response.data);
+          // if []
           bookDescription = response.data.description;
-          // console.log("book Description", bookDescription);
-          // console.log("type", typeof bookDescription);
 
           if (!bookDescription) {
             bookDescription = "Book description not available";
           }
 
+          // if {}
           if (typeof bookDescription !== "string") {
             bookDescription = bookDescription.value;
           }
@@ -139,10 +125,9 @@ function fetchBookDescription() {
           return bookDescription;
         })
         .then((response) => {
-          console.log("response", response);
           createAndAttachElement(
             "p",
-            { class: "plot" },
+            { class: "book-description" },
             ".book-selected",
             "beforeend",
             response
@@ -152,59 +137,57 @@ function fetchBookDescription() {
           bookDescription = "Book description not available";
           createAndAttachElement(
             "p",
-            { class: "plot" },
+            { class: "book-description" },
             ".book-selected",
             "beforeend",
             bookDescription
           );
         });
-      // exit loop in case of more than 1 same book title but different editions.
+      // exit loop in case of more than 1 same book title exists with different editions.
       break;
     }
   }
 }
 
 /// Handling of missing data for each book
-// NOTE: sometimes authors are given back as an object, trending param = true in this case.
+// NOTE: Some APIs send authors back as an array of objects ("authors") or as an simiple array ("author_name"). Covers either as "cover_i" or "cover_id". "customAuthorsProp" and "customCoverLinkProp" have been created and added to objects to ease the handling of data.
 function bookDataHandler(book) {
   return new Promise(function (resolve, reject) {
-    // title
+    // TITLE //
     if (!book.title) book.title = "Book title not available";
 
-    // authors
+    // AUTHORS //
     let customAuthorsProp = book.authors ?? book.author_name;
     book.customAuthorsProp = customAuthorsProp;
 
     if (!book.customAuthorsProp)
       book.customAuthorsProp = "Book author not available";
 
+    // if array of objects
     if (book.authors) {
       for (let i = 0; i < book.authors.length; i++) {
         customAuthorsProp[i] = book.authors[i].name;
       }
     }
 
-    // book.customAuthorsProp = book.customAuthorsProp.join(", ");
-
+    // add space after each comma.
     if (
       Array.isArray(book.customAuthorsProp) &&
       book.customAuthorsProp.length > 1
     ) {
       book.customAuthorsProp = book.customAuthorsProp.join(", ");
-      // console.log("final", book);
     }
 
-    // book cover
+    // COVER //
     let customCoverLinkProp = book.cover_id ?? book.cover_i;
     book.customCoverLinkProp = customCoverLinkProp;
 
+    // set cover_default if cover doesn't exist
     if (!book.customCoverLinkProp) {
       book.customCoverLinkProp = cover_default;
       resolve(book);
     } else {
-      // console.log(book);
       fetchBookCover(book).then(() => {
-        // console.log(book);
         resolve(book);
       });
     }
@@ -219,13 +202,11 @@ function fetchBookCover(book) {
         `https://covers.openlibrary.org/b/id/${book.customCoverLinkProp}-L.jpg?default=false`
       )
       .then((response) => {
-        // let coverLink;
-
         book.customCoverLinkProp = `https://covers.openlibrary.org/b/id/${book.customCoverLinkProp}-L.jpg`;
         // book.customCoverLinkProp = coverLink;
         return book;
       })
-      // image not found (error 403), create book with default cover
+      // image not found create book with default cover
       .catch((error) => {
         book.customCoverLinkProp = cover_default;
         return book;

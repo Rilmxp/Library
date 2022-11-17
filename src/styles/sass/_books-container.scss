@@ -1,0 +1,75 @@
+// OUTER CONTAINER //
+
+.searchbox-books-container {
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+// .searchbox-books-container-selected {
+//   // min-height: 80vh;
+//   width: 100%;
+// }
+
+// inner header (trending - book of choice - book subject)
+.books-display-header {
+  margin: 0 auto;
+  padding: 0.5rem;
+  border-bottom: 1px solid grey;
+  // opacity: 1;
+  // animation: fade 1s ease reverse;
+  // transition: fade 1s ease reverse;
+  // transition: opacity 3s;
+  transition: opacity 1s ease;
+}
+
+// Search box and button
+.input-group {
+  width: 80%;
+  margin: 0 auto;
+}
+
+// INNER CONTAINER //
+
+.books-container {
+  position: relative;
+  height: 60vh;
+
+  display: grid;
+  gap: 1rem;
+  padding: 0.75rem 1rem 1rem 1rem;
+  grid-auto-flow: column;
+
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.snap {
+  scroll-snap-type: inline mandatory;
+
+  & > * {
+    scroll-snap-align: center;
+  }
+}
+
+// style for container after having selected a book //
+.books-container-selected {
+  // height: 60vh;
+  // width: 60vw;
+  display: flex;
+  justify-content: center;
+  // padding: 0.75rem 1rem 1rem 1rem;
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+
+// error message display inside book container //
+.error-message {
+  @include center-content;
+  // display: flex;
+  // text-align: center;
+  // align-items: center;
+  margin-bottom: 0;
+}
