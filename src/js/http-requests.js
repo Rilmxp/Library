@@ -56,10 +56,17 @@ function fetchDailyTrendingBooks() {
 }
 
 // fetch books by subject
-function fetchBooksBySubject() {
+function fetchBooksBySubject(subject) {
+  // console.log(activeBooks);
+  let activeBooksDisplayed = document.querySelectorAll(".book");
+  // console.log("activeBooksDisplayed", activeBooksDisplayed);
+  // activeBooksDisplayed.forEach((book) => (book.style.display = "none"));
+  activeBooksDisplayed.forEach((book) => book.remove());
+
   createLoader();
+
   axios
-    .get("https://openlibrary.org/subjects/historical_fiction.json")
+    .get(`https://openlibrary.org/subjects/${subject}.json`)
     .then((res) => {
       const books = res.data.works;
       activeBooks = books;
@@ -67,6 +74,8 @@ function fetchBooksBySubject() {
     })
     .then((books) => {
       createLoader(false);
+
+      // activeBooksDisplayed.forEach((book) => book.remove());
 
       books.forEach((book) => {
         // check for missing data

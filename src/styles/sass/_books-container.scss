@@ -25,10 +25,14 @@
   transition: opacity 1s ease;
 }
 
-// Search box and button
+// Searchbox, button and invalid input message.
 .input-group {
   width: 80%;
-  margin: 0 auto;
+  margin: 0.3rem auto auto auto;
+}
+
+.invalid-feedback {
+  margin-bottom: 0rem;
 }
 
 // INNER CONTAINER //

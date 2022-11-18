@@ -11,22 +11,27 @@
       <h1 style="background-color: white; width: 100%">LIBRARY</h1>
 
       <div class="searchbox-books-container">
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Book subject"
-            aria-label="Book subject"
-            aria-describedby="button-addon2"
-          />
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            id="button-addon2"
-          >
-            Search
-          </button>
-        </div>
+        <form novalidate>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control has-validation"
+              id="input-search-subject"
+              placeholder="Book Subject"
+              aria-label="Book subject"
+              aria-describedby="button-search-subject"
+              required
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="submit"
+              id="button-search-subject"
+            >
+              Search
+            </button>
+            <div class="invalid-feedback">Invalid book subject</div>
+          </div>
+        </form>
 
         <h4 class="books-display-header">Trending today...</h4>
 

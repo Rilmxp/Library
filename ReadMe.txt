@@ -45,3 +45,20 @@ Footer:
 change trending/your book selection/subject
 evaluate descripotion text-align: left or center.
 check clicking on the spinner before loading books goes blank.
+how to deal with time out errors
+
+
+DISCONNECT THE MUTATION OBSERVER.
+searchby subject:
+display none activeBooks. ok
+show spinner ok
+if success:
+    remove activeBooks 
+    show new books
+    set new active books
+    change heading.
+if fail:
+    show error message in container for some seconds
+    display older active books
+
+

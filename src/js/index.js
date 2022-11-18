@@ -19,8 +19,41 @@ import {
   fetchBooksBySubject,
   fetchBookDescription,
 } from "./http-requests";
+import axios from "axios";
 
 let booksContainer = document.querySelector(".books-container");
+
+let buttonSearchSubject = document.querySelector("#button-search-subject");
+let inputSearchSubject = document.querySelector("#input-search-subject");
+let formSearchSubject = document.querySelector("form");
+
+// Necessary for Bootstrap validation styles
+(() => {
+  formSearchSubject.addEventListener(
+    "submit",
+    (event) => {
+      if (!formSearchSubject.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      formSearchSubject.classList.add("was-validated");
+    },
+    false
+  );
+})();
+
+// get book subjects search box
+formSearchSubject.addEventListener("submit", function (e) {
+  const subject = inputSearchSubject.value;
+  console.log(inputSearchSubject.value);
+
+  // if (subject == "a") formSearchSubject.classList.add();
+  e.preventDefault();
+  // e.stopPropagation();
+
+  fetchBooksBySubject(subject);
+});
 
 fetchDailyTrendingBooks();
 // fetchBooksBySubject();
