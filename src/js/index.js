@@ -19,9 +19,10 @@ import {
   fetchBooksBySubject,
   fetchBookDescription,
 } from "./http-requests";
-import axios from "axios";
+// import axios from "axios";
 
 let booksContainer = document.querySelector(".books-container");
+let containerObserver = mutationObserver();
 
 let buttonSearchSubject = document.querySelector("#button-search-subject");
 let inputSearchSubject = document.querySelector("#input-search-subject");
@@ -48,6 +49,11 @@ formSearchSubject.addEventListener("submit", function (e) {
   const subject = inputSearchSubject.value;
   console.log(inputSearchSubject.value);
 
+  if (booksContainer.classList.contains("books-container-selected")) {
+    containerObserver.disconnect();
+    booksContainer.classList.remove("books-container-selected");
+  }
+
   // if (subject == "a") formSearchSubject.classList.add();
   e.preventDefault();
   // e.stopPropagation();
@@ -65,13 +71,18 @@ booksContainer.addEventListener("click", function (event) {
   if (!target) return;
 
   //when user clicks on books, and not all of these have been yet created, it prevents the display of future books. So inside the ".book-container-selected" only one book will be shown.
-  mutationObserver().observe(booksContainer, { childList: true });
+  // mutationObserver().observe(booksContainer, { childList: true });
+  // let containerObserver = mutationObserver();
+  // containerObserver.observe(booksContainer, { childList: true });
 
   let books = document.querySelectorAll(".book");
 
   target.classList.toggle("book-selected");
+  booksContainer.classList.toggle("books-container-selected");
 
   if (target.classList.contains("book-selected")) {
+    containerObserver.observe(booksContainer, { childList: true });
+
     //fetch book description
     fetchBookDescription();
 
@@ -83,15 +94,18 @@ booksContainer.addEventListener("click", function (event) {
     });
 
     // change layout of container
-    booksContainer.classList.toggle("books-container-selected");
+    // booksContainer.classList.toggle("books-container-selected");
   } else {
+    console.log("books else", books);
+    containerObserver.disconnect();
+
     // show all books again
     books.forEach((book) => {
       book.style.display = "";
     });
 
     // change back container layout
-    booksContainer.classList.toggle("books-container-selected");
+    // booksContainer.classList.toggle("books-container-selected");
 
     // remove book description
     document.querySelector(".book-description").remove();
@@ -109,17 +123,17 @@ booksContainer.addEventListener("click", function (event) {
     }
   }
 
-  function mutationObserver() {
-    return new MutationObserver((mutations) => {
-      for (let mutation of mutations) {
-        for (let node of mutation.addedNodes) {
-          if (node instanceof HTMLElement) {
-            node.style.display = "none";
-          }
-        }
-      }
-    });
-  }
+  // function mutationObserver() {
+  //   return new MutationObserver((mutations) => {
+  //     for (let mutation of mutations) {
+  //       for (let node of mutation.addedNodes) {
+  //         if (node instanceof HTMLElement) {
+  //           node.style.display = "none";
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
 
   // function changeHeading(heading, text) {
   //   heading.classList.add("fade-out");
@@ -128,5 +142,17 @@ booksContainer.addEventListener("click", function (event) {
   //   heading.classList.add("fade-in");
   // }
 });
+
+function mutationObserver() {
+  return new MutationObserver((mutations) => {
+    for (let mutation of mutations) {
+      for (let node of mutation.addedNodes) {
+        if (node instanceof HTMLElement) {
+          node.style.display = "none";
+        }
+      }
+    }
+  });
+}
 
 export { booksContainer };

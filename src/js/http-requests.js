@@ -22,6 +22,7 @@ function fetchDailyTrendingBooks() {
     .get("https://openlibrary.org/trending/daily.json")
     .then((res) => {
       const books = res.data.works;
+      console.log("daily books", books);
       activeBooks = books;
       return books;
     })
@@ -61,7 +62,9 @@ function fetchBooksBySubject(subject) {
   let activeBooksDisplayed = document.querySelectorAll(".book");
   // console.log("activeBooksDisplayed", activeBooksDisplayed);
   // activeBooksDisplayed.forEach((book) => (book.style.display = "none"));
-  activeBooksDisplayed.forEach((book) => book.remove());
+  // activeBooksDisplayed.forEach((book) => book.remove());
+
+  activeBooksDisplayed.forEach((book) => (book.style.display = "none"));
 
   createLoader();
 
@@ -69,11 +72,33 @@ function fetchBooksBySubject(subject) {
     .get(`https://openlibrary.org/subjects/${subject}.json`)
     .then((res) => {
       const books = res.data.works;
+      console.log("wrong subject", res.data.works);
       activeBooks = books;
       return books;
     })
     .then((books) => {
       createLoader(false);
+      if (books.length === 0) {
+        createAndAttachElement(
+          "div",
+          { class: "error-message" },
+          ".books-container",
+          "afterbegin",
+          "No books available with that subject. Please insert another subject"
+        );
+
+        new Promise(function (resolve, reject) {
+          setTimeout(() => {
+            document.querySelector(".error-message").style.display = "none";
+          }, 3000);
+        }).then(() => {
+          setTimeout(() => {
+            activeBooksDisplayed.forEach((book) => (book.style.display = ""));
+          }, 10000);
+          // activeBooksDisplayed.forEach((book) => (book.style.display = ""));
+        });
+        // });
+      }
 
       // activeBooksDisplayed.forEach((book) => book.remove());
 
@@ -113,14 +138,16 @@ function fetchBookDescription() {
 
   // use book title to find book and its key to fetch description
   for (let activeBook of activeBooks) {
+    // console.log(activeBook);
     if (activeBook.title === bookTitle) {
-      console.log("activeBook", activeBook.key, activeBook.title);
+      console.log("activeBook", activeBook, activeBook.key, activeBook.title);
 
       axios
         .get(`https://openlibrary.org${activeBook.key}.json`)
         .then((response) => {
           // if []
           bookDescription = response.data.description;
+          console.log(bookDescription);
 
           if (!bookDescription) {
             bookDescription = "Book description not available";
@@ -152,7 +179,7 @@ function fetchBookDescription() {
             bookDescription
           );
         });
-      // exit loop in case of more than 1 same book title exists with different editions.
+      // exit loop in case of more than 1 same book title exists with different editions so description doesn't get duplicated.
       break;
     }
   }
