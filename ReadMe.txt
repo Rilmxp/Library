@@ -46,7 +46,7 @@ change trending/your book selection/subject
 evaluate descripotion text-align: left or center.
 check clicking on the spinner before loading books goes blank.
 how to deal with time out errors
-is _empty for arrays and objects va messo per forza.
+is _empty for arrays and objects va messo per forza (use housing search to double check, many books without descriptions).
 
 
 DISCONNECT THE MUTATION OBSERVER.

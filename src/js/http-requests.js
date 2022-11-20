@@ -10,6 +10,8 @@ import {
 } from "./page-creation";
 import cover_default from "../assets/img/cover_default_small.jpg";
 
+import { heading, changeHeading } from "./index";
+
 let booksContainer = document.querySelector(".books-container");
 let activeBooks;
 
@@ -58,22 +60,26 @@ function fetchDailyTrendingBooks() {
 
 // fetch books by subject
 function fetchBooksBySubject(subject) {
-  // console.log(activeBooks);
   let activeBooksDisplayed = document.querySelectorAll(".book");
-  // console.log("activeBooksDisplayed", activeBooksDisplayed);
-  // activeBooksDisplayed.forEach((book) => (book.style.display = "none"));
-  // activeBooksDisplayed.forEach((book) => book.remove());
 
+  // temporarily hide displayed books.
   activeBooksDisplayed.forEach((book) => (book.style.display = "none"));
 
-  createLoader();
+  // hide error message, if present
+  if (document.querySelector(".error-message")) {
+    document.querySelector(".error-message").remove();
+  }
 
+  // heading.hidden = true;
+  heading.innerHTML = "";
+  heading.style.visibility = "hidden";
+  createLoader();
   axios
     .get(`https://openlibrary.org/subjects/${subject}.json`)
     .then((res) => {
       const books = res.data.works;
-      console.log("wrong subject", res.data.works);
-      activeBooks = books;
+      // console.log("wrong subject", res.data.works);
+      // activeBooks = books;
       return books;
     })
     .then((books) => {
@@ -89,30 +95,31 @@ function fetchBooksBySubject(subject) {
 
         new Promise(function (resolve, reject) {
           setTimeout(() => {
-            document.querySelector(".error-message").style.display = "none";
+            resolve(
+              (document.querySelector(".error-message").style.display = "none")
+            );
           }, 3000);
         }).then(() => {
-          setTimeout(() => {
-            activeBooksDisplayed.forEach((book) => (book.style.display = ""));
-          }, 10000);
-          // activeBooksDisplayed.forEach((book) => (book.style.display = ""));
+          activeBooksDisplayed.forEach((book) => (book.style.display = ""));
         });
-        // });
+      } else {
+        activeBooks = books;
+        activeBooksDisplayed.forEach((book) => book.remove());
+        heading.style.visibility = "visible";
+        changeHeading(`${_.capitalize(subject)} books`);
+
+        books.forEach((book) => {
+          // check for missing data
+          bookDataHandler(book).then(() => {
+            createBook(
+              book.title,
+              book.customAuthorsProp,
+              booksContainer,
+              book.customCoverLinkProp
+            );
+          });
+        });
       }
-
-      // activeBooksDisplayed.forEach((book) => book.remove());
-
-      books.forEach((book) => {
-        // check for missing data
-        bookDataHandler(book).then(() => {
-          createBook(
-            book.title,
-            book.customAuthorsProp,
-            booksContainer,
-            book.customCoverLinkProp
-          );
-        });
-      });
     })
     .catch((error) => {
       if (error.response || error.request) {
@@ -129,7 +136,7 @@ function fetchBooksBySubject(subject) {
 }
 
 // fetch book description
-// description is sent back either as [] or {}
+// description is sent back either as a string or {value:description}
 function fetchBookDescription() {
   let bookTitle = document.querySelector(
     ".book-selected .book-title"
@@ -145,13 +152,19 @@ function fetchBookDescription() {
       axios
         .get(`https://openlibrary.org${activeBook.key}.json`)
         .then((response) => {
-          // if []
-          bookDescription = response.data.description;
-          console.log(bookDescription);
-
-          if (!bookDescription) {
+          console.log("data", response.data);
+          console.log("description", response.data.description);
+          // check for prop and value existence
+          if (
+            !bookDescription ||
+            _isEmpty(bookDescription) ||
+            _isEmpty(bookDescription.value)
+          ) {
             bookDescription = "Book description not available";
           }
+
+          // if string
+          bookDescription = response.data.description;
 
           // if {}
           if (typeof bookDescription !== "string") {

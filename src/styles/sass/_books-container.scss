@@ -22,7 +22,7 @@
   // animation: fade 1s ease reverse;
   // transition: fade 1s ease reverse;
   // transition: opacity 3s;
-  transition: opacity 1s ease;
+  transition: opacity 0.5s ease-in-out;
 }
 
 // Searchbox, button and invalid input message.
@@ -45,6 +45,7 @@
   gap: 1rem;
   padding: 0.75rem 1rem 1rem 1rem;
   grid-auto-flow: column;
+  justify-items: center;
 
   overflow-x: auto;
   overscroll-behavior-inline: contain;

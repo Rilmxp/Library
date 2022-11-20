@@ -6,6 +6,8 @@ import "../assets/fontawesome/css/brands.css";
 import "../assets/fontawesome/css/solid.css";
 import "../styles/sass/styles.scss";
 
+import _ from "lodash";
+
 // variables.
 
 // pics imports
@@ -21,12 +23,22 @@ import {
 } from "./http-requests";
 // import axios from "axios";
 
+// // test lodash
+// let testArray = { type: "richard", value: "" };
+// let testArray2 = "";
+
+// console.log("loadash", _.isEmpty(testArray.value));
+// console.log("loadash", _.isEmpty(testArray2));
+
 let booksContainer = document.querySelector(".books-container");
 let containerObserver = mutationObserver();
 
 let buttonSearchSubject = document.querySelector("#button-search-subject");
 let inputSearchSubject = document.querySelector("#input-search-subject");
 let formSearchSubject = document.querySelector("form");
+
+let heading = document.querySelector(".books-display-header");
+let previousHeading;
 
 // Necessary for Bootstrap validation styles
 (() => {
@@ -46,12 +58,25 @@ let formSearchSubject = document.querySelector("form");
 
 // get book subjects search box
 formSearchSubject.addEventListener("submit", function (e) {
-  const subject = inputSearchSubject.value;
-  console.log(inputSearchSubject.value);
+  const subject = inputSearchSubject.value.toLowerCase().split(" ").join("_");
+
+  // empty string error message below input box
+  if (!subject) {
+    setTimeout(() => {
+      formSearchSubject.classList.remove("was-validated");
+    }, 2000);
+    return;
+  }
+  console.log(subject, typeof subject);
+  console.log(subject.split(" ").join("_"));
+
+  // cosole.log(subject.toLowerCase());
+  // console.log(subject);
 
   if (booksContainer.classList.contains("books-container-selected")) {
     containerObserver.disconnect();
     booksContainer.classList.remove("books-container-selected");
+    document.querySelector(".book-selected").classList.remove("book-selected");
   }
 
   // if (subject == "a") formSearchSubject.classList.add();
@@ -93,8 +118,8 @@ booksContainer.addEventListener("click", function (event) {
       }
     });
 
-    // change layout of container
-    // booksContainer.classList.toggle("books-container-selected");
+    // change heading
+    changeHeading("Your book of choice");
   } else {
     console.log("books else", books);
     containerObserver.disconnect();
@@ -107,8 +132,14 @@ booksContainer.addEventListener("click", function (event) {
     // change back container layout
     // booksContainer.classList.toggle("books-container-selected");
 
+    // change heading
+    changeHeading(previousHeading);
+
     // remove book description
-    document.querySelector(".book-description").remove();
+    // document.querySelector(".book-description").remove();
+    if (document.querySelector(".book-description")) {
+      document.querySelector(".book-description").remove();
+    }
 
     // place viewer at selected book original position
     goBackToBook();
@@ -155,4 +186,13 @@ function mutationObserver() {
   });
 }
 
-export { booksContainer };
+function changeHeading(text) {
+  previousHeading = heading.innerHTML;
+  heading.style.opacity = "0";
+  heading.addEventListener("transitionend", () => {
+    heading.innerHTML = text;
+    heading.style.opacity = "1";
+  });
+}
+
+export { booksContainer, changeHeading, heading };
