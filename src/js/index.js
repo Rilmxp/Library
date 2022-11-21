@@ -20,6 +20,7 @@ import {
   fetchDailyTrendingBooks,
   fetchBooksBySubject,
   fetchBookDescription,
+  activeBooks,
 } from "./http-requests";
 // import axios from "axios";
 
@@ -58,17 +59,50 @@ let previousHeading;
 
 // get book subjects search box
 formSearchSubject.addEventListener("submit", function (e) {
-  const subject = inputSearchSubject.value.toLowerCase().split(" ").join("_");
+  e.preventDefault();
 
-  // empty string error message below input box
-  if (!subject) {
+  // console.log(
+  //   "activeBooks",
+  //   activeBooks.length,
+  //   ".books",
+  //   document.querySelectorAll(".book").length
+  // );
+
+  // wait to submit until all books have been loaded
+  let booksNotLoaded =
+    document.querySelectorAll(".book").length < activeBooks.length;
+
+  // format string to submit to api through url (eg, history_of_art)
+  let subject = inputSearchSubject.value.toLowerCase().split(" ").join("_");
+
+  if (!subject || booksNotLoaded) {
+    // empty string error message below input box
+    console.log(booksNotLoaded);
+    let invalidFeedback = document.querySelector(".invalid-feedback");
+
+    // if (!subject) invalidFeedback.innerHTML = "Please, enter a book subject";
+    if (!subject) {
+      inputSearchSubject.setCustomValidity("Please, enter a book subject");
+    }
+    // if (booksNotLoaded)
+    //   invalidFeedback.innerHTML =
+    //     "Current books not yet loaded. Please, try again later.";
+
+    if (booksNotLoaded)
+      inputSearchSubject.setCustomValidity(
+        "Current books not yet loaded. Please, try again later."
+      );
+
+    inputSearchSubject.reportValidity();
+
     setTimeout(() => {
       formSearchSubject.classList.remove("was-validated");
     }, 2000);
+
     return;
   }
-  console.log(subject, typeof subject);
-  console.log(subject.split(" ").join("_"));
+  // console.log(subject, typeof subject);
+  // console.log(subject.split(" ").join("_"));
 
   // cosole.log(subject.toLowerCase());
   // console.log(subject);
@@ -80,7 +114,7 @@ formSearchSubject.addEventListener("submit", function (e) {
   }
 
   // if (subject == "a") formSearchSubject.classList.add();
-  e.preventDefault();
+  // e.preventDefault();
   // e.stopPropagation();
 
   fetchBooksBySubject(subject);
@@ -111,6 +145,8 @@ booksContainer.addEventListener("click", function (event) {
     //fetch book description
     fetchBookDescription();
 
+    // heading.style.opacity = "0";
+
     // hide all other books
     books.forEach((book) => {
       if (!book.classList.contains("book-selected")) {
@@ -119,9 +155,14 @@ booksContainer.addEventListener("click", function (event) {
     });
 
     // change heading
-    changeHeading("Your book of choice");
+    heading.style.opacity = "0";
+    setTimeout(() => {
+      changeHeading("Your book of choice");
+    }, 500);
+
+    // changeHeading("Your book of choice");
   } else {
-    console.log("books else", books);
+    // console.log("books else", books);
     containerObserver.disconnect();
 
     // show all books again
@@ -133,7 +174,12 @@ booksContainer.addEventListener("click", function (event) {
     // booksContainer.classList.toggle("books-container-selected");
 
     // change heading
-    changeHeading(previousHeading);
+    heading.style.opacity = "0";
+    setTimeout(() => {
+      changeHeading(previousHeading);
+    }, 500);
+
+    //;
 
     // remove book description
     // document.querySelector(".book-description").remove();
@@ -188,11 +234,27 @@ function mutationObserver() {
 
 function changeHeading(text) {
   previousHeading = heading.innerHTML;
-  heading.style.opacity = "0";
-  heading.addEventListener("transitionend", () => {
-    heading.innerHTML = text;
+  if (!text) text = previousHeading;
+
+  heading.innerHTML = text;
+
+  if (heading.style.opacity === "1") {
+    heading.style.opacity = "0";
+  } else {
     heading.style.opacity = "1";
-  });
+  }
+  // heading.style.visibility = "visible";
+  // heading.style.opacity = "0";
+  // heading.addEventListener("transitionend", () => {
+  //   if (heading.style.opacity === "1") {
+  //     heading.style.opacity = "0";
+  //   } else {
+  //     heading.style.opacity = "1";
+  //   }
+  // });
+
+  // heading.innerHTML = text;
+  // heading.style.opacity = "1";
 }
 
-export { booksContainer, changeHeading, heading };
+export { booksContainer, changeHeading, heading, previousHeading };

@@ -10,7 +10,8 @@ import {
 } from "./page-creation";
 import cover_default from "../assets/img/cover_default_small.jpg";
 
-import { heading, changeHeading } from "./index";
+import { heading, previousHeading, changeHeading } from "./index";
+import _ from "lodash";
 
 let booksContainer = document.querySelector(".books-container");
 let activeBooks;
@@ -18,6 +19,8 @@ let activeBooks;
 // fetch daily trending books.
 function fetchDailyTrendingBooks() {
   // shows loader spinner
+  // changeHeading("Searching for books...");
+  // heading.style.visibility = "hidden";
   createLoader();
 
   axios
@@ -30,6 +33,8 @@ function fetchDailyTrendingBooks() {
     })
     .then((books) => {
       //remove loader
+      // heading.style.visibility = "visible";
+      changeHeading("Today's trending books");
       createLoader(false);
 
       books.forEach((book) => {
@@ -46,6 +51,7 @@ function fetchDailyTrendingBooks() {
     })
     .catch((error) => {
       if (error.response || error.request) {
+        // heading.style.visibility = "hidden";
         createLoader(false);
         createAndAttachElement(
           "div",
@@ -71,8 +77,9 @@ function fetchBooksBySubject(subject) {
   }
 
   // heading.hidden = true;
-  heading.innerHTML = "";
-  heading.style.visibility = "hidden";
+  // heading.innerHTML = "";
+  // heading.style.visibility = "hidden";
+  heading.style.opacity = "0";
   createLoader();
   axios
     .get(`https://openlibrary.org/subjects/${subject}.json`)
@@ -84,7 +91,8 @@ function fetchBooksBySubject(subject) {
     })
     .then((books) => {
       createLoader(false);
-      if (books.length === 0) {
+      if (_.isEmpty(books)) {
+        // heading.style.visibility = "hidden";
         createAndAttachElement(
           "div",
           { class: "error-message" },
@@ -100,13 +108,17 @@ function fetchBooksBySubject(subject) {
             );
           }, 3000);
         }).then(() => {
+          console.log("before", previousHeading);
+          changeHeading();
+          console.log("after", previousHeading);
           activeBooksDisplayed.forEach((book) => (book.style.display = ""));
         });
       } else {
         activeBooks = books;
         activeBooksDisplayed.forEach((book) => book.remove());
-        heading.style.visibility = "visible";
-        changeHeading(`${_.capitalize(subject)} books`);
+        changeHeading(
+          `${_.capitalize(subject).split("_").join(" ")} related books`
+        );
 
         books.forEach((book) => {
           // check for missing data
@@ -123,6 +135,7 @@ function fetchBooksBySubject(subject) {
     })
     .catch((error) => {
       if (error.response || error.request) {
+        // heading.style.visibility = "hidden";
         createLoader(false);
         createAndAttachElement(
           "div",
@@ -263,4 +276,9 @@ function fetchBookCover(book) {
   );
 }
 
-export { fetchDailyTrendingBooks, fetchBooksBySubject, fetchBookDescription };
+export {
+  fetchDailyTrendingBooks,
+  fetchBooksBySubject,
+  fetchBookDescription,
+  activeBooks,
+};

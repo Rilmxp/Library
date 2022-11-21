@@ -17,7 +17,11 @@
 .books-display-header {
   margin: 0 auto;
   padding: 0.5rem;
-  border-bottom: 1px solid grey;
+  opacity: 0;
+  // visibility: hidden;
+  // border-bottom: 1px solid grey;
+  text-decoration: underline lightslategray;
+  text-align: center;
   // opacity: 1;
   // animation: fade 1s ease reverse;
   // transition: fade 1s ease reverse;
