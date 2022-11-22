@@ -14,7 +14,7 @@ import { heading, previousHeading, changeHeading } from "./index";
 import _ from "lodash";
 
 let booksContainer = document.querySelector(".books-container");
-let activeBooks;
+let activeBooks = [];
 
 // fetch daily trending books.
 function fetchDailyTrendingBooks() {
@@ -108,9 +108,9 @@ function fetchBooksBySubject(subject) {
             );
           }, 3000);
         }).then(() => {
-          console.log("before", previousHeading);
+          // console.log("before", previousHeading);
           changeHeading();
-          console.log("after", previousHeading);
+          // console.log("after", previousHeading);
           activeBooksDisplayed.forEach((book) => (book.style.display = ""));
         });
       } else {
