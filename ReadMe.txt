@@ -1,7 +1,7 @@
 Pseudo:
 
 To do: - favicon.
-       - deal with long text-space in container
+       - Creation of page at loading.
 
 Title: My Library
 
@@ -14,18 +14,11 @@ Files:
 
 search box + button:
 
-    - bootstrap
-    - autocomplete (get list of genres at page loading)
-
 Workflow:
     - search box typing:
-        - autocomplete genres.
 
         - btn click:
-            if not valid genre:
 
-                - prompt user for valid input
-        
             if valid genre:
 
                 -fetch API subjects.
@@ -39,27 +32,9 @@ Workflow:
                     - if failure:
                         - pop up. Pls try again later.
                         
-Footer:
-    - My portoflio + github logo/links / Fontawesome
-
-change trending/your book selection/subject
-evaluate descripotion text-align: left or center.
-check clicking on the spinner before loading books goes blank.
+evaluate description text-align: left or center.
 how to deal with time out errors
-is _empty for arrays and objects va messo per forza (use housing search to double check, many books without descriptions).
 
 
-DISCONNECT THE MUTATION OBSERVER.
-searchby subject:
-display none activeBooks. ok
-show spinner ok
-if success:
-    remove activeBooks 
-    show new books
-    set new active books
-    change heading.
-if fail:
-    show error message in container for some seconds
-    display older active books
 
 

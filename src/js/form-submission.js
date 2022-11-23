@@ -1,15 +1,15 @@
 "use strict";
 
-// imports
+// IMPORTS
 import { containerObserver } from "./index";
-import { activeBooks, fetchBooksBySubject } from "./http-requests";
+import { activeBooks, fetchBooksBySubject, noBooks } from "./http-requests";
 
-// variables
+// VARIABLES
 let formSearchSubject = document.querySelector("form");
 let inputSearchSubject = document.querySelector("#input-search-subject");
 let booksContainer = document.querySelector(".books-container");
 
-// submit form eventListener
+// SUBMIT FORM LISTENER
 function formSubmission() {
   formSearchSubject.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -22,6 +22,7 @@ function formSubmission() {
     checkInputField(subject);
 
     // if invalid
+
     if (!inputSearchSubject.checkValidity()) {
       //remove format after 3s
       setTimeout(() => {
@@ -44,9 +45,8 @@ function formSubmission() {
   });
 }
 
-// Custom validation for the input field.
+// CUSTOM VALIDATION FOR THE INPUT FIELD 
 // Params: string (user's input).
-
 function checkInputField(subject) {
   let invalidFeedback = document.querySelector(".invalid-feedback");
   let booksLength = document.querySelectorAll(".book").length;
@@ -55,6 +55,9 @@ function checkInputField(subject) {
   let booksLoaded =
     activeBooks.length === booksLength && activeBooks.length !== 0;
 
+  // needed only in case of trending books fetch failure. So form validity succeds and you can search for books.
+  if (noBooks) booksLoaded = true;
+
   // check input field not empty and all books created. Otherwise cannot submit
   if (!subject) {
     inputSearchSubject.setCustomValidity("Please, enter a book subject");
@@ -62,7 +65,7 @@ function checkInputField(subject) {
     return;
   } else if (!booksLoaded) {
     inputSearchSubject.setCustomValidity("Current books still loading");
-    invalidFeedback.innerHTML = "Current books still loading";
+    invalidFeedback.innerHTML = "Books still loading. Try again later";
     return;
   } else {
     inputSearchSubject.setCustomValidity("");

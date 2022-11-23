@@ -1,0 +1,15 @@
+@media only screen and (min-width: 550px) {
+  body > *,
+  h6,
+  h4 {
+    font-size: 133%;
+  }
+
+  .book {
+    width: 40vw;
+
+    .book-description {
+      width: 60vw;
+    }
+  }
+}

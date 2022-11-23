@@ -27,11 +27,6 @@ import { formSubmission } from "./form-submission";
 
 let booksContainer = document.querySelector(".books-container");
 let containerObserver = mutationObserver();
-
-// let buttonSearchSubject = document.querySelector("#button-search-subject");
-// let inputSearchSubject = document.querySelector("#input-search-subject");
-// let formSearchSubject = document.querySelector("form");
-
 let heading = document.querySelector(".books-display-header");
 let previousHeading;
 
@@ -70,14 +65,6 @@ booksContainer.addEventListener("click", function (event) {
         book.style.display = "none";
       }
     });
-
-    // change heading
-    heading.style.opacity = "0";
-    setTimeout(() => {
-      changeHeading("Your book of choice");
-    }, 500);
-
-    // changeHeading("Your book of choice");
   } else {
     // console.log("books else", books);
     containerObserver.disconnect();
@@ -86,9 +73,6 @@ booksContainer.addEventListener("click", function (event) {
     books.forEach((book) => {
       book.style.display = "";
     });
-
-    // change back container layout
-    // booksContainer.classList.toggle("books-container-selected");
 
     // change heading
     heading.style.opacity = "0";
@@ -99,7 +83,6 @@ booksContainer.addEventListener("click", function (event) {
     //;
 
     // remove book description
-    // document.querySelector(".book-description").remove();
     if (document.querySelector(".book-description")) {
       document.querySelector(".book-description").remove();
     }
@@ -130,9 +113,12 @@ function mutationObserver() {
   });
 }
 
+//
 function changeHeading(text) {
-  previousHeading = heading.innerHTML;
-  if (!text) text = previousHeading;
+  // remember last sucessful heading to show again in case of a failed subject search.
+  if (text) previousHeading = text;
+
+  if (!text) text = "Your book of choice";
 
   heading.innerHTML = text;
 
