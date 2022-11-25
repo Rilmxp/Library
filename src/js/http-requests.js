@@ -304,14 +304,11 @@ function measureTextLength() {
   let rulerWidth = ruler.getBoundingClientRect().width;
   ruler.remove();
 
-  console.log(
-    "rulerWidht",
-    rulerWidth,
-    "paragraph Descritpion",
-    paragraphDescription.offsetWidth
-  );
-
-  if (rulerWidth < paragraphDescription.offsetWidth) {
+  if (
+    rulerWidth < paragraphDescription.offsetWidth &&
+    window.innerWidth < 700 &&
+    window.innerHeight > 540
+  ) {
     paragraphDescription.style.textAlign = "center";
   }
 }

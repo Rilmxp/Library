@@ -49,6 +49,7 @@ booksContainer.addEventListener("click", function (event) {
   let books = document.querySelectorAll(".book");
 
   target.classList.toggle("book-selected");
+  target.classList.toggle("no-hover");
   booksContainer.classList.toggle("books-container-selected");
 
   if (target.classList.contains("book-selected")) {

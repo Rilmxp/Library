@@ -1,15 +1,173 @@
-@media only screen and (min-width: 550px) {
+@media only screen and (min-width: 400px) {
   body > *,
   h6,
   h4 {
-    font-size: 133%;
+    // font-size: 1.3rem;
+  }
+
+  // input, button {
+  //   font-size: inherit;
+  // }
+
+  // .book {
+  //   width: 50vw;
+  // }
+
+  // .book-description {
+  //   width: 70vw;
+  // }
+}
+
+@media only screen and (min-width: 500px) {
+  .book {
+    width: 45vw;
+  }
+
+  .book-description {
+    width: 65vw;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .book {
+    width: 40vw;
+  }
+  .book-description {
+    width: 60vw;
+  }
+}
+
+@media only screen and (min-width: 700px) {
+  .books-container {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    row-gap: 1.5rem;
+    /* gap: 1rem; */
+    padding: 0.75rem 1rem 1rem 1rem;
+    /* grid-auto-flow: column; */
+    justify-items: center;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
   }
 
   .book {
-    width: 40vw;
+    width: 30vw;
+  }
+
+  .books-container-selected {
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 80%;
+    justify-content: start;
+    position: relative;
+    margin: 0px 10%;
 
     .book-description {
-      width: 60vw;
+      //leave a margin of 2vw so it doen't touch the Y scrollbar
+      width: 43vw;
+      position: absolute;
+      top: 0;
+      left: 35vw;
+      margin: 0;
+      text-align: left;
+      padding-top: 5px;
+    }
+  }
+}
+
+@media only screen and (min-width: 950px) {
+  .book {
+    width: 25vw;
+
+    .book-description {
+      width: 48vw;
+      left: 30vw;
+    }
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .book {
+    width: 15vw;
+
+    .book-description {
+      width: 58vw;
+      left: 20vw;
+    }
+  }
+}
+
+// to improve landscape position in devices with a very low viewport HEIGHT.
+@media only screen and (max-height: 540px) {
+  #input-search-subject {
+    height: 1.5rem;
+    font-size: 0.7rem;
+  }
+
+  #button-search-subject {
+    height: 1.5rem;
+    font-size: 0.7rem;
+    // border-top-right-radius: 0.375rem;
+    // border-bottom-right-radius: 0.375rem;
+  }
+
+  .invalid-feedback {
+    font-size: 0.6rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+  .book {
+    width: 15vw;
+    font-size: 0.65rem;
+  }
+  .book-title {
+    h6 {
+      font-size: 0.7rem;
+      -webkit-line-clamp: 2;
+    }
+  }
+  .book-author {
+    p {
+      -webkit-line-clamp: 2;
+    }
+  }
+
+  .spinner {
+    width: 30px;
+    height: 30px;
+    border-width: 7px;
+  }
+
+  // i {
+  //   font-size: 1.5rem;
+  // }
+
+  .error-message {
+    font-size: 0.8rem;
+  }
+
+  .books-container-selected {
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 80%;
+    justify-content: start;
+    position: relative;
+    margin: 0px 10%;
+
+    .book-description {
+      //leave a margin of 2vw so it doesn't touch the Y scrollbar
+      width: 58vw;
+      position: absolute;
+      top: 0;
+      left: 20vw;
+      margin: 0;
+      text-align: left;
+      padding-top: 5px;
     }
   }
 }

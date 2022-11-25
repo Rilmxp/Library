@@ -11,7 +11,8 @@
 
   animation: fade-in 1s ease;
 
-  &:hover {
+  // hover effect only if elem doen't have .no-hover class.
+  &:not(.no-hover):hover {
     margin-top: -10px;
     opacity: 0.9;
     border: 2px solid black;
@@ -75,9 +76,9 @@
 }
 
 .book-selected {
-  // border: 1px solid black;
-  // border-radius: 10px;
-  // @include shadow-style;
-  // width: 60vw;
   overflow: visible;
+
+  .no-hover {
+    pointer-events: none;
+  }
 }

@@ -32,9 +32,10 @@ Workflow:
                     - if failure:
                         - pop up. Pls try again later.
                         
-evaluate description text-align: left or center.
 how to deal with time out errors
 
-
+make words larger for >1200px.
+scrollbar.
+favicon.
 
 
