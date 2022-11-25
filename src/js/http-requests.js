@@ -188,7 +188,7 @@ function fetchBookDescription() {
         .then((response) => {
           createAndAttachElement(
             "p",
-            { class: "book-description" },
+            { class: "book-description fade-in" },
             ".book-selected",
             "beforeend",
             response
@@ -199,7 +199,7 @@ function fetchBookDescription() {
           bookDescription = "Book description not available";
           createAndAttachElement(
             "p",
-            { class: "book-description" },
+            { class: "book-description fade-in" },
             ".book-selected",
             "beforeend",
             bookDescription

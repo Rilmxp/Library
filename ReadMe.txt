@@ -32,10 +32,9 @@ Workflow:
                     - if failure:
                         - pop up. Pls try again later.
                         
-how to deal with time out errors
-
-make words larger for >1200px.
-scrollbar.
+creation page at loading.
+review code.
 favicon.
+stetics.
 
 

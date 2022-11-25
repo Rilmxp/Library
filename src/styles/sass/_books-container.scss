@@ -52,6 +52,8 @@
 .books-container {
   position: relative;
   height: 60vh;
+  margin-right: 5px;
+  margin-left: 5px;
 
   display: grid;
   gap: 1rem;
@@ -63,6 +65,33 @@
   overscroll-behavior-inline: contain;
 
   // font-size: inherit;
+}
+
+.scrollbar {
+  scrollbar-width: thin;
+}
+
+.books-container::-webkit-scrollbar {
+  width: 1vw;
+  height: 1vh;
+}
+
+.books-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.16);
+  border-radius: 30px;
+  margin-block: 0.5rem;
+}
+
+.books-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.114);
+  border-radius: 30px;
+  height: 60px;
+  width: 60px;
+  // border: 0.1rem solid rgba(0, 0, 0, 0.16);
+}
+
+.books-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.24);
 }
 
 .snap {

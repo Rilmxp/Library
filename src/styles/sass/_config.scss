@@ -84,6 +84,34 @@ h1 {
   }
 }
 
+.fade-in {
+  animation: fade-in 0.5s ease;
+}
+
+// Custom scrollbar
+// ::-webkit-scrollbar {
+//   width: 1rem;
+//   height: 1rem;
+// }
+
+// ::-webkit-scrollbar-track {
+//   background: hsl(120 75% 50% / 1);
+//   border-radius: 30px;
+//   margin-block: 0.5rem;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//   background: hsl(120 100% 20% / 1);
+//   border-radius: 30px;
+//   height: 60px;
+//   width: 60px;
+//   border: 0.25rem solid hsl(120 75% 50% / 1);
+// }
+
+// ::-webkit-scrollbar-thumb:hover {
+//   background: hsl(120 100% 10% / 1);
+// }
+
 // @keyframes fade-out {
 //   from {
 //     opacity: 1;
@@ -95,8 +123,4 @@ h1 {
 
 // .fade-out {
 //   animation: fade-out 0.5s ease;
-// }
-
-// .fade-in {
-//   animation: fade-in 0.5s ease;
 // }
