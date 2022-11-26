@@ -18,9 +18,6 @@ module.exports = {
     static: {
       directory: path.resolve(__dirname, "dist"),
     },
-    // proxy: {
-    //   "https://openlibrary.org/dev/docs/api/": "http://localhost:3000",
-    // },
     port: 3000,
     open: true,
     hot: true,

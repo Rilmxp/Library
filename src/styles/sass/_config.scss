@@ -31,6 +31,7 @@ body {
   // min-height: 100vh;
   // overscroll-behavior-inline: contain;
   overflow: hidden;
+  // background-color: #eae7dc;
 }
 
 main {
@@ -42,12 +43,16 @@ main {
 }
 
 h1 {
+  width: 100%;
   font-weight: 900;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 10vh;
-  // border-bottom: 1px solid grey;
+  // background-color: #d5bdaf;
+  background-color: #d5bdaf;
+  color: white;
+  border-bottom: 1px solid white;
   margin: 0px;
 }
 

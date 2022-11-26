@@ -34,7 +34,7 @@ Workflow:
                         
 creation page at loading.
 review code.
-favicon.
-stetics.
+consider putting an anchor to first book by clicling on h1 library
+
 
 

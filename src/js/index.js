@@ -11,8 +11,9 @@ import _ from "lodash";
 // variables.
 
 // pics imports
-// import cover_default from "../assets/img/cover_default_small.jpg";
-// import bookshelf from "../assets/img/bookshelf.jpg";
+import favicon from "../assets/img/favicon.png";
+const faviconHtml = document.querySelector("link[rel~='icon']");
+faviconHtml.href = favicon;
 
 // javascript imports
 import { createAndAttachElement, createBook } from "./page-creation.js";

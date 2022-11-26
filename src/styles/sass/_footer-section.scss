@@ -3,9 +3,18 @@
   justify-content: center;
   align-items: center;
   height: 10vh;
-  border-top: 1px solid black;
+  border-top: 1px solid white;
+  background-color: #d5bdaf;
 
   .links {
+    a {
+      color: white;
+
+      &:hover {
+        color: #393330;
+      }
+    }
+
     i {
       padding: 0 1rem;
       font-size: 1.75rem;
