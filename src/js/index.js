@@ -1,4 +1,4 @@
-// import * as bootstrap from "bootstrap";
+import * as bootstrap from "bootstrap";
 
 // font awesome imports
 import "../assets/fontawesome/css/fontawesome.css";
@@ -6,26 +6,49 @@ import "../assets/fontawesome/css/brands.css";
 import "../assets/fontawesome/css/solid.css";
 import "../styles/sass/styles.scss";
 
-import _ from "lodash";
+import _, { create } from "lodash";
 
 // variables.
 
 // pics imports
 import favicon from "../assets/img/favicon.png";
-const faviconHtml = document.querySelector("link[rel~='icon']");
-faviconHtml.href = favicon;
+// const faviconHtml = document.querySelector("link[rel~='icon']");
+// faviconHtml.href = favicon;
 
 // javascript imports
-import { createAndAttachElement, createBook } from "./page-creation.js";
+import { createAndAttachElement } from "./page-creation.js";
 import {
   fetchDailyTrendingBooks,
   fetchBooksBySubject,
   fetchBookDescription,
   activeBooks,
 } from "./http-requests";
-import { formSubmission } from "./form-submission";
-// import axios from "axios";
+// import { formSubmission } from "./form-submission";
 
+// let booksContainer = document.querySelector(".books-container");
+// let containerObserver = mutationObserver();
+// let heading = document.querySelector(".books-display-header");
+// let previousHeading;
+
+// create inital elements
+
+// initialElements.forEach((element) => {
+//   createAndAttachElement(
+//     element.tagName,
+//     element.attributes,
+//     element.attachTo,
+//     element.position,
+//     element.content
+//   );
+// });
+
+import { formSubmission } from "./form-submission";
+
+// create favicon
+const faviconHtml = document.querySelector("link[rel~='icon']");
+faviconHtml.href = favicon;
+
+//variables
 let booksContainer = document.querySelector(".books-container");
 let containerObserver = mutationObserver();
 let heading = document.querySelector(".books-display-header");
