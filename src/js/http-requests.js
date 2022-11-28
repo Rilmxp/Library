@@ -10,10 +10,11 @@ import {
 } from "./page-creation";
 import cover_default from "../assets/img/cover_default_small.jpg";
 
-import { heading, previousHeading, changeHeading } from "./index";
+import { booksContainer, heading } from "./index";
+import { changeHeading, previousHeading } from "./helpers";
 import _, { isEmpty } from "lodash";
 
-let booksContainer = document.querySelector(".books-container");
+// let booksContainer = document.querySelector(".books-container");
 let activeBooks = [];
 let noBooks;
 
@@ -22,17 +23,22 @@ function fetchDailyTrendingBooks() {
   createLoader();
 
   axios
-    .get("https://openlibrary.org/trending/daily.json")
+    .get("https://openlibrary.org/trending/now.json")
     .then((res) => {
       const books = res.data.works;
       console.log("daily books", books);
       activeBooks = books;
+      console.log(activeBooks);
       return books;
     })
     .then((books) => {
+      console.log("after", books);
       //remove loader
-      // heading.style.visibility = "visible";
+      // console.log("heading", heading);
+
       changeHeading("Today's trending books");
+      console.log("heading", heading);
+
       console.log(previousHeading);
       createLoader(false);
 

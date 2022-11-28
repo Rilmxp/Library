@@ -1,11 +1,11 @@
 "use strict";
 
-//INCLUDES FUNCTIONS TO CREATE ELEMENTS.
+//File contains all functions and objects to create DOM elements.
 
 import cover_default from "../assets/img/cover_default_small.jpg";
 import { booksContainer } from "./index";
 
-// creates an element and attatches it to another one.
+// func createAndAttachElement creates an element and attatches it to another one.
 // params: tagName = "string", attributes = {prop:"string"}, attachTo = "css selector", position = "string" (as per insertAdjacentElement), content = "string".
 
 function createAndAttachElement(
@@ -24,7 +24,7 @@ function createAndAttachElement(
   return element;
 }
 
-// creates book element
+// func createBook creates book element
 // params title = "string", author = "string", imgUrl = "image url",
 function createBook(title, author, attachTo, imgUrl) {
   const html = `
@@ -47,11 +47,10 @@ function createBook(title, author, attachTo, imgUrl) {
   attachTo.insertAdjacentHTML("beforeend", html);
 }
 
-// Creates loader spinner to be placed always in the bookscontainer during loading of books. if remove === true, loader will be remove
+// func createLoader creates a loader spinner to be placed always in the bookscontainer during loading of books.
+// params: if create === false, loader will be removed
 function createLoader(create = true) {
   if (create === false) {
-    const loader = document.querySelector(".loader");
-    // loader.style.display = "none";
     document.querySelector(".loader").remove();
   } else {
     const html = `
@@ -63,134 +62,134 @@ function createLoader(create = true) {
   }
 }
 
-// objects to create elems on page load
+// initialElements are the objects from which DOM elements will be created on page load
 
-// const initialElements = [
-//   {
-//     tagName: "main",
-//     attributes: {},
-//     attachTo: "body",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "h1",
-//     attributes: {},
-//     attachTo: "main",
-//     position: "beforeend",
-//     content: "LIBRARY",
-//   },
-//   {
-//     tagName: "div",
-//     attributes: { class: "searchbox-books-container" },
-//     attachTo: "main",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "form",
-//     attributes: { novalidate: true },
-//     attachTo: ".searchbox-books-container",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "h4",
-//     attributes: { class: "books-display-header" },
-//     attachTo: ".searchbox-books-container",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "div",
-//     attributes: { class: "books-container snap scrollbar" },
-//     attachTo: ".searchbox-books-container",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "div",
-//     attributes: { class: "input-group" },
-//     attachTo: "form",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "input",
-//     attributes: {
-//       type: "text",
-//       class: "form-control has-validation",
-//       id: "input-search-subject",
-//       placeholder: "Book Subject",
-//       "aria-label": "Book Subject",
-//       "aria-describedby": "button-search-subject",
-//     },
-//     attachTo: ".input-group",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "button",
-//     attributes: {
-//       class: "btn btn-outline-secondary",
-//       type: "submit",
-//       id: "button-search-subject",
-//     },
-//     attachTo: ".input-group",
-//     position: "beforeend",
-//     content: "Search",
-//   },
+const initialElements = [
+  {
+    tagName: "main",
+    attributes: {},
+    attachTo: "body",
+    position: "beforeend",
+  },
+  {
+    tagName: "h1",
+    attributes: {},
+    attachTo: "main",
+    position: "beforeend",
+    content: "LIBRARY",
+  },
+  {
+    tagName: "div",
+    attributes: { class: "searchbox-books-container" },
+    attachTo: "main",
+    position: "beforeend",
+  },
+  {
+    tagName: "form",
+    attributes: { novalidate: true },
+    attachTo: ".searchbox-books-container",
+    position: "beforeend",
+  },
+  {
+    tagName: "h4",
+    attributes: { class: "books-display-header" },
+    attachTo: ".searchbox-books-container",
+    position: "beforeend",
+  },
+  {
+    tagName: "div",
+    attributes: { class: "books-container snap scrollbar" },
+    attachTo: ".searchbox-books-container",
+    position: "beforeend",
+  },
+  {
+    tagName: "div",
+    attributes: { class: "input-group" },
+    attachTo: "form",
+    position: "beforeend",
+  },
+  {
+    tagName: "input",
+    attributes: {
+      type: "text",
+      class: "form-control has-validation",
+      id: "input-search-subject",
+      placeholder: "Book Subject",
+      "aria-label": "Book Subject",
+      "aria-describedby": "button-search-subject",
+    },
+    attachTo: ".input-group",
+    position: "beforeend",
+  },
+  {
+    tagName: "button",
+    attributes: {
+      class: "btn btn-outline-secondary",
+      type: "submit",
+      id: "button-search-subject",
+    },
+    attachTo: ".input-group",
+    position: "beforeend",
+    content: "Search",
+  },
 
-//   {
-//     tagName: "div",
-//     attributes: { class: "invalid-feedback" },
-//     attachTo: ".input-group",
-//     position: "beforeend",
-//   },
+  {
+    tagName: "div",
+    attributes: { class: "invalid-feedback" },
+    attachTo: ".input-group",
+    position: "beforeend",
+  },
 
-//   {
-//     tagName: "footer",
-//     attributes: { class: "page-footer" },
-//     attachTo: "body",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "div",
-//     attributes: { class: "links" },
-//     attachTo: "footer",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "a",
-//     attributes: {
-//       href: "https://github.com/Rilmxp/Library",
-//       target: "_blank",
-//       title: "Github",
-//     },
-//     attachTo: ".links",
-//     position: "beforeend",
-//   },
-//   {
-//     tagName: "i",
-//     attributes: {
-//       class: "fa-brands fa-github",
-//     },
-//     attachTo: "a[title='Github']",
-//     position: "beforeend",
-//   },
+  {
+    tagName: "footer",
+    attributes: { class: "page-footer" },
+    attachTo: "body",
+    position: "beforeend",
+  },
+  {
+    tagName: "div",
+    attributes: { class: "links" },
+    attachTo: "footer",
+    position: "beforeend",
+  },
+  {
+    tagName: "a",
+    attributes: {
+      href: "https://github.com/Rilmxp/Library",
+      target: "_blank",
+      title: "Github",
+    },
+    attachTo: ".links",
+    position: "beforeend",
+  },
+  {
+    tagName: "i",
+    attributes: {
+      class: "fa-brands fa-github",
+    },
+    attachTo: "a[title='Github']",
+    position: "beforeend",
+  },
 
-//   {
-//     tagName: "a",
-//     attributes: {
-//       href: "https://rilmxp.github.io/Portfolio/",
-//       target: "_blank",
-//       title: "Portfolio",
-//     },
-//     attachTo: ".links",
-//     position: "beforeend",
-//   },
+  {
+    tagName: "a",
+    attributes: {
+      href: "https://rilmxp.github.io/Portfolio/",
+      target: "_blank",
+      title: "Portfolio",
+    },
+    attachTo: ".links",
+    position: "beforeend",
+  },
 
-//   {
-//     tagName: "i",
-//     attributes: {
-//       class: "fa-solid fa-briefcase",
-//     },
-//     attachTo: "a[title='Portfolio']",
-//     position: "beforeend",
-//   },
-// ];
+  {
+    tagName: "i",
+    attributes: {
+      class: "fa-solid fa-briefcase",
+    },
+    attachTo: "a[title='Portfolio']",
+    position: "beforeend",
+  },
+];
 
-export { createAndAttachElement, createBook, createLoader };
+export { createAndAttachElement, createBook, createLoader, initialElements };
