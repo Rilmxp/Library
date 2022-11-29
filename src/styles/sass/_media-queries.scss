@@ -156,8 +156,6 @@
   #button-search-subject {
     height: 1.5rem;
     font-size: 0.7rem;
-    // border-top-right-radius: 0.375rem;
-    // border-bottom-right-radius: 0.375rem;
   }
 
   .invalid-feedback {
@@ -174,24 +172,20 @@
   .book-title {
     h6 {
       font-size: 0.7rem;
-      -webkit-line-clamp: 2;
+      // -webkit-line-clamp: 2;
     }
   }
-  .book-author {
-    p {
-      -webkit-line-clamp: 2;
-    }
-  }
+  // .book-author {
+  //   p {
+  //     -webkit-line-clamp: 2;
+  //   }
+  // }
 
   .spinner {
     width: 30px;
     height: 30px;
     border-width: 7px;
   }
-
-  // i {
-  //   font-size: 1.5rem;
-  // }
 
   .error-message {
     font-size: 0.8rem;

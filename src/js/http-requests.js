@@ -1,49 +1,49 @@
 "use strict";
 
-// CONTAINS ALL FUNCTIONS AND DATA HANDLING RELATED TO HTTP REQUESTS //
+// File contains all functions for fetching and data handling  of http requests
 
+// imports of external libraries
 import axios from "axios";
+import _, { isEmpty } from "lodash";
+
+// imports of variables and functions
 import {
   createBook,
   createAndAttachElement,
+  createErrorMessage,
   createLoader,
+  createBookDescription,
 } from "./page-creation";
-import cover_default from "../assets/img/cover_default_small.jpg";
-
 import { booksContainer, heading } from "./index";
-import { changeHeading, previousHeading } from "./helpers";
-import _, { isEmpty } from "lodash";
+import { changeHeading, showPreviousBooks } from "./helpers";
 
-// let booksContainer = document.querySelector(".books-container");
+// stores books returned by http requests.
 let activeBooks = [];
+
+// true if a request returns no results, will be used in form validation.
 let noBooks;
 
-// fetch daily trending books.
+///// FETCH TRENDING BOOKS  /////
 function fetchDailyTrendingBooks() {
   createLoader();
 
   axios
-    .get("https://openlibrary.org/trending/now.json")
+    .get("https://openlibrary.org/trending/daily.json")
     .then((res) => {
       const books = res.data.works;
-      console.log("daily books", books);
       activeBooks = books;
-      console.log(activeBooks);
       return books;
     })
     .then((books) => {
-      console.log("after", books);
       //remove loader
-      // console.log("heading", heading);
-
-      changeHeading("Today's trending books");
-      console.log("heading", heading);
-
-      console.log(previousHeading);
       createLoader(false);
 
+      changeHeading("Today's trending books");
+
+      noBooks = false;
+
       books.forEach((book) => {
-        // check for missing data
+        // handle data receive to create book elements.
         bookDataHandler(book).then(() => {
           createBook(
             book.title,
@@ -58,62 +58,48 @@ function fetchDailyTrendingBooks() {
       if (error.response || error.request) {
         noBooks = true;
         createLoader(false);
-        createAndAttachElement(
-          "div",
-          { class: "error-message" },
-          ".books-container",
-          "afterbegin",
-          "Books data currently unavailable. Please try again later or search your books with the form above"
+        createErrorMessage(
+          "Books data currently unavailable. Please try again later or search for your own books with the form above"
         );
       }
     });
 }
 
-// fetch books by subject
+///// FETCH BOOKS BY SUBJECT   /////
 function fetchBooksBySubject(subject) {
   let activeBooksDisplayed = document.querySelectorAll(".book");
 
-  // temporarily hide displayed books.
+  // temporarily hide displayed books. They will be shown again if the subject search returns no results. Otherwise they will be removed
   activeBooksDisplayed.forEach((book) => (book.style.display = "none"));
 
-  // hide error message, if present
+  // hide error message, if present from previous search
   if (document.querySelector(".error-message")) {
     document.querySelector(".error-message").remove();
   }
 
   heading.style.opacity = "0";
   createLoader();
+
   axios
     .get(`https://openlibrary.org/subjects/${subject}.json`)
     .then((res) => {
       const books = res.data.works;
-      // console.log("wrong subject", res.data.works);
-      // activeBooks = books;
       return books;
     })
     .then((books) => {
       createLoader(false);
+
+      // if no books returned with that subject
       if (_.isEmpty(books)) {
-        // heading.style.visibility = "hidden";
-        createAndAttachElement(
-          "div",
-          { class: "error-message" },
-          ".books-container",
-          "afterbegin",
+        noBooks = true;
+        createErrorMessage(
           "No books available with that subject. Please insert another subject"
         );
-
-        new Promise(function (resolve, reject) {
-          setTimeout(() => {
-            resolve(
-              (document.querySelector(".error-message").style.display = "none")
-            );
-          }, 3000);
-        }).then(() => {
-          changeHeading(previousHeading);
-          activeBooksDisplayed.forEach((book) => (book.style.display = ""));
-        });
+        // show back our hidden active books.
+        showPreviousBooks(activeBooksDisplayed);
       } else {
+        // otherwise update active books, remove the previously displayed ones and change heading.
+        noBooks = false;
         activeBooks = books;
         activeBooksDisplayed.forEach((book) => book.remove());
         changeHeading(
@@ -135,82 +121,58 @@ function fetchBooksBySubject(subject) {
     })
     .catch((error) => {
       if (error.response || error.request) {
-        // heading.style.visibility = "hidden";
+        noBooks = true;
         createLoader(false);
-        createAndAttachElement(
-          "div",
-          { class: "error-message" },
-          ".books-container",
-          "afterbegin",
+        createErrorMessage(
           "Books data currently unavailable. Please try again later"
         );
+        showPreviousBooks(activeBooksDisplayed);
       }
     });
 }
 
-// fetch book description
-// description is sent back either as a string or {value:description}
+/////  FETCH BOOK DESCRIPTION     /////
+// description is received either as a string or object {value:description}
+// book.title will be used to match book.key of current active books to the one selected by the user
+
 function fetchBookDescription() {
   let bookTitle = document.querySelector(
     ".book-selected .book-title"
   ).innerText;
-  let bookDescription;
 
   heading.style.opacity = "0";
-  // setTimeout(() => {
-  //   changeHeading("Your book of choice");
-  // }, 300);
 
   // use book title to find book and its key to fetch description
   for (let activeBook of activeBooks) {
-    // console.log(activeBook);
     if (activeBook.title === bookTitle) {
-      console.log("activeBook", activeBook, activeBook.key, activeBook.title);
-
       axios
         .get(`https://openlibrary.org${activeBook.key}.json`)
         .then((response) => {
           changeHeading();
 
-          // check for prop and value existence
-          if (
-            !bookDescription ||
-            _.isEmpty(bookDescription) ||
-            _.isEmpty(bookDescription.value)
-          ) {
+          let bookDescription = response.data.description;
+
+          // check for existence and string value
+          if (!bookDescription || _.isEmpty(bookDescription)) {
             bookDescription = "Book description not available";
           }
 
-          // if string
-          bookDescription = response.data.description;
-
           // if {}
-          if (typeof bookDescription !== "string") {
-            bookDescription = bookDescription.value;
+          if (typeof bookDescription === "object") {
+            if (_.isEmpty(bookDescription.value)) {
+              bookDescription = "Book description not available";
+            } else {
+              bookDescription = bookDescription.value;
+            }
           }
 
           return bookDescription;
         })
-        .then((response) => {
-          createAndAttachElement(
-            "p",
-            { class: "book-description fade-in" },
-            ".book-selected",
-            "beforeend",
-            response
-          );
-          // measureTextLength();
+        .then((description) => {
+          createBookDescription(description);
         })
         .catch((error) => {
-          bookDescription = "Book description not available";
-          createAndAttachElement(
-            "p",
-            { class: "book-description fade-in" },
-            ".book-selected",
-            "beforeend",
-            bookDescription
-          );
-          // measureTextLength();
+          createBookDescription("Book description not available");
         })
         .finally(() => {
           // if text description too short text-align center instead of left
@@ -258,7 +220,7 @@ function bookDataHandler(book) {
 
     // set cover_default if cover doesn't exist
     if (!book.customCoverLinkProp) {
-      book.customCoverLinkProp = cover_default;
+      // book.customCoverLinkProp = cover_default;
       resolve(book);
     } else {
       fetchBookCover(book).then(() => {
@@ -282,7 +244,7 @@ function fetchBookCover(book) {
       })
       // image not found create book with default cover
       .catch((error) => {
-        book.customCoverLinkProp = cover_default;
+        // book.customCoverLinkProp = cover_default;
         return book;
       })
   );
@@ -290,9 +252,7 @@ function fetchBookCover(book) {
 
 // Measures books description text in pixels to text-aling:center if too short. Otherwise default text-align:left will remain.
 function measureTextLength() {
-  console.log("enter function");
   let paragraphDescription = document.querySelector(".book-description");
-  console.log(paragraphDescription.offsetWidth);
 
   // gets some display's handy computed properties
   let paragraphCssProp = window.getComputedStyle(paragraphDescription);

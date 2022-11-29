@@ -1,8 +1,8 @@
 "use strict";
 
-//File contains all functions and objects to create DOM elements.
+// File contains all functions and objects to create DOM elements.
 
-import cover_default from "../assets/img/cover_default_small.jpg";
+import cover_default from "../assets/img/cover_default.jpg";
 import { booksContainer } from "./index";
 
 // func createAndAttachElement creates an element and attatches it to another one.
@@ -25,8 +25,11 @@ function createAndAttachElement(
 }
 
 // func createBook creates book element
-// params title = "string", author = "string", imgUrl = "image url",
-function createBook(title, author, attachTo, imgUrl) {
+// params title = "string", author = "string", imgUrl = "image url".
+// a default image has been set in case of failure to retrive link from api.
+// book-cover-message ("cover not available") to be displayed only if cover_default has been used.
+
+function createBook(title, author, attachTo, imgUrl = cover_default) {
   const html = `
   <div class="book book-fade-in">
     <div class="book-title">
@@ -47,8 +50,30 @@ function createBook(title, author, attachTo, imgUrl) {
   attachTo.insertAdjacentHTML("beforeend", html);
 }
 
+//
+function createErrorMessage(message) {
+  createAndAttachElement(
+    "div",
+    { class: "error-message" },
+    ".books-container",
+    "afterbegin",
+    message
+  );
+}
+
+function createBookDescription(bookDescription) {
+  createAndAttachElement(
+    "p",
+    { class: "book-description fade-in" },
+    ".book-selected",
+    "beforeend",
+    bookDescription
+  );
+}
+
 // func createLoader creates a loader spinner to be placed always in the bookscontainer during loading of books.
-// params: if create === false, loader will be removed
+// params: if create == false, loader will be removed
+
 function createLoader(create = true) {
   if (create === false) {
     document.querySelector(".loader").remove();
@@ -192,4 +217,11 @@ const initialElements = [
   },
 ];
 
-export { createAndAttachElement, createBook, createLoader, initialElements };
+export {
+  createAndAttachElement,
+  createBook,
+  createErrorMessage,
+  createLoader,
+  initialElements,
+  createBookDescription,
+};

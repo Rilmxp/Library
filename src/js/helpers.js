@@ -1,10 +1,11 @@
 "use strict";
 
 import { heading } from "./index";
+
 let previousHeading;
 
-// creates an observer for .books-container
-//when books are still being loaded and user clicks on any book, it prevents the display of future books in the container. So inside the ".book-container-selected" only one book will be shown.
+// func mutationObserver creates an observer for .books-container
+//when books are still being loaded and user clicks on any book, it prevents the display of future books in the container. So inside the ".book-container-selected" only one book will be shown (the one selected by the user).
 
 function mutationObserver() {
   return new MutationObserver((mutations) => {
@@ -22,7 +23,7 @@ function mutationObserver() {
 // params: text = "string" with name of heading.
 
 function changeHeading(text) {
-  // remember last sucessful heading to show again (with same previous books) in case of a failed subject search.
+  // remember last sucessful heading to show again (with same previous books) in case of an unsuccessful subject search.
   if (text) previousHeading = text;
 
   if (!text) text = "Your book of choice";
@@ -36,4 +37,17 @@ function changeHeading(text) {
   }
 }
 
-export { mutationObserver, changeHeading, previousHeading };
+function showPreviousBooks(previousBooks) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(() => {
+      resolve(
+        (document.querySelector(".error-message").style.display = "none")
+      );
+    }, 3000);
+  }).then(() => {
+    changeHeading(previousHeading);
+    previousBooks.forEach((book) => (book.style.display = ""));
+  });
+}
+
+export { mutationObserver, changeHeading, previousHeading, showPreviousBooks };

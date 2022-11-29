@@ -1,6 +1,8 @@
 "use strict";
 
-// IMPORTS
+// file contains only event-listeners for <form> and .books-container
+
+// imports
 import { containerObserver, booksContainer, heading } from "./index";
 import {
   activeBooks,
@@ -10,14 +12,17 @@ import {
 } from "./http-requests";
 import { changeHeading, previousHeading } from "./helpers";
 
-// SUBMIT FORM LISTENER
+// Creates listener for form to trigger upon submission.
 function formSubmissionListener() {
-  let formSearchSubject = document.querySelector("form");
-  let inputSearchSubject = document.querySelector("#input-search-subject");
+  const formSearchSubject = document.querySelector("form");
+  const inputSearchSubject = document.querySelector("#input-search-subject");
 
   formSearchSubject.addEventListener("submit", function (e) {
     e.preventDefault();
     formSearchSubject.classList.add("was-validated");
+    document
+      .querySelector("#button-search-subject")
+      .setAttribute("disabled", true);
 
     // format string for attaching to url (eg, "history_of_art")
     let subject = inputSearchSubject.value.toLowerCase().split(" ").join("_");
@@ -26,17 +31,20 @@ function formSubmissionListener() {
     checkInputField(subject);
 
     // if invalid
-
     if (!inputSearchSubject.checkValidity()) {
-      //remove format after 3s
+      //remove red feedback styles after 3s
       setTimeout(() => {
         formSearchSubject.classList.remove("was-validated");
+        document
+          .querySelector("#button-search-subject")
+          .removeAttribute("disabled");
       }, 3000);
       return;
     }
 
     // if "book description" was open
     if (booksContainer.classList.contains("books-container-selected")) {
+      // disconnect observer so new results will be displayed
       containerObserver.disconnect();
       booksContainer.classList.remove("books-container-selected");
       document
@@ -47,31 +55,46 @@ function formSubmissionListener() {
     // proceed to fetch books as per valid input
     fetchBooksBySubject(subject);
 
-    // CUSTOM VALIDATION FOR THE INPUT FIELD
-    // Params: string (user's input).
+    setTimeout(() => {
+      document
+        .querySelector("#button-search-subject")
+        .removeAttribute("disabled");
+    }, 3000);
+
+    // INNER FUNCTIONS
+    // func checkInputField provides custom validation for the input field.
+    // Params: string (user's input, that is, a "book subject").
     function checkInputField(subject) {
       let invalidFeedback = document.querySelector(".invalid-feedback");
       let booksLength = document.querySelectorAll(".book").length;
 
-      // check all current book elems have been created.
-      let booksLoaded =
-        activeBooks.length === booksLength && activeBooks.length !== 0;
+      // check all current book elems have been loaded.
+      let booksLoaded = false;
+      if (
+        noBooks ||
+        (activeBooks.length === booksLength && activeBooks.length !== 0)
+      ) {
+        booksLoaded = true;
+      }
 
-      // needed only in case of trending books fetch failure. So form validity succeds and you can search for books.
-      if (noBooks) booksLoaded = true;
+      // needed only in case of trending books fetch failure. So form validity succeds and you can search for book subjects. Otherwise form will reject input with "books still loading" invalid feedback.
+      // if (noBooks) booksLoaded = true;
+
+      console.log("booksLoaded after", booksLoaded);
 
       // check input field not empty and all books created. Otherwise cannot submit
       if (!subject) {
         inputSearchSubject.setCustomValidity("Please, enter a book subject");
         invalidFeedback.innerHTML = "Please, enter a book subject";
         return;
-      } else if (!booksLoaded) {
+      }
+      if (!booksLoaded) {
         inputSearchSubject.setCustomValidity("Current books still loading");
         invalidFeedback.innerHTML = "Books still loading. Try again later";
         return;
-      } else {
-        inputSearchSubject.setCustomValidity("");
       }
+      // valid input
+      inputSearchSubject.setCustomValidity("");
     }
   });
 }
@@ -84,11 +107,14 @@ function BookContainerListener() {
 
     let books = document.querySelectorAll(".book");
 
+    // change layout and styles of booksContainer
     target.classList.toggle("book-selected");
     target.classList.toggle("no-hover");
     booksContainer.classList.toggle("books-container-selected");
 
+    // if user has selected a book
     if (target.classList.contains("book-selected")) {
+      // activate observer to prevent future books (those not yet loaded) to be displayed inside the container so you can only see the books selected.
       containerObserver.observe(booksContainer, { childList: true });
 
       //fetch book description
@@ -100,7 +126,10 @@ function BookContainerListener() {
           book.style.display = "none";
         }
       });
-    } else {
+    }
+
+    // if user has deselected a book
+    if (!target.classList.contains("book-selected")) {
       containerObserver.disconnect();
 
       // show all books again
@@ -120,16 +149,11 @@ function BookContainerListener() {
       }
 
       // place viewer at selected book original position
-      goBackToBook();
-
-      // places viewer at same book position
-      function goBackToBook() {
-        target.scrollIntoView({
-          block: "center",
-          inline: "center",
-          behavior: "auto",
-        });
-      }
+      target.scrollIntoView({
+        block: "center",
+        inline: "center",
+        behavior: "auto",
+      });
     }
   });
 }
