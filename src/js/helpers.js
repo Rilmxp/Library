@@ -1,6 +1,8 @@
 "use strict";
 
 import { heading } from "./index";
+import { fetchBookCover } from "./http-requests";
+import { createAndAttachElement } from "./page-creation";
 
 let previousHeading;
 
@@ -37,6 +39,8 @@ function changeHeading(text) {
   }
 }
 
+// func showPreviousBooks displays back books that had been temporarily hidden. It's called after a subject search with no results.
+
 function showPreviousBooks(previousBooks) {
   return new Promise(function (resolve, reject) {
     setTimeout(() => {
@@ -50,4 +54,87 @@ function showPreviousBooks(previousBooks) {
   });
 }
 
-export { mutationObserver, changeHeading, previousHeading, showPreviousBooks };
+/// func bookDataHandler() Handles the missing data for each book
+// NOTE: Some APIs send authors back as an array of objects ("authors") or as an simple array ("author_name"). Covers either as "cover_i" or "cover_id". "customAuthorsProp" and "customCoverLinkProp" have been created and added to objects to ease the handling of data.
+function bookDataHandler(book) {
+  return new Promise(function (resolve) {
+    /// title ///
+    if (!book.title || _.isEmpty(book.title))
+      book.title = "Book title not available";
+
+    /// authors ///
+    let customAuthorsProp = book.authors ?? book.author_name;
+    book.customAuthorsProp = customAuthorsProp;
+
+    if (!book.customAuthorsProp || _.isEmpty(book.customAuthorsProp))
+      book.customAuthorsProp = "Book author not available";
+
+    // if array of objects
+    if (book.authors) {
+      for (let i = 0; i < book.authors.length; i++) {
+        customAuthorsProp[i] = book.authors[i].name;
+      }
+    }
+
+    // add space after each comma for a nicer display format
+    if (
+      Array.isArray(book.customAuthorsProp) &&
+      book.customAuthorsProp.length > 1
+    ) {
+      book.customAuthorsProp = book.customAuthorsProp.join(", ");
+    }
+
+    /// cover ///
+    let customCoverLinkProp = book.cover_id ?? book.cover_i;
+    book.customCoverLinkProp = customCoverLinkProp;
+
+    // if it doen't exist return book and default cover cover_default will be used.
+    if (!book.customCoverLinkProp) {
+      resolve(book);
+    } else {
+      fetchBookCover(book).then(() => {
+        resolve(book);
+      });
+    }
+  });
+}
+
+// func measureTextLength() measures books description text in pixels to apply text-align:center if it is too short. Otherwise default text-align:left will remain.
+function measureTextLength() {
+  let paragraphDescription = document.querySelector(".book-description");
+
+  // gets some display's handy computed properties
+  let paragraphCssProp = window.getComputedStyle(paragraphDescription);
+  let paragraphFontSize = paragraphCssProp.getPropertyValue("font-size");
+
+  // creates a temporary span to measure size of book description text. Sets same font properties for enhancing precision
+  let ruler = createAndAttachElement(
+    "span",
+    { style: `font-size: ${paragraphFontSize};` },
+    "body",
+    "afterbegin",
+    paragraphDescription.innerHTML
+  );
+
+  // measures the text
+  let rulerWidth = ruler.getBoundingClientRect().width;
+  ruler.remove();
+
+  // apply only on vertical layout
+  if (
+    rulerWidth < paragraphDescription.offsetWidth &&
+    window.innerWidth < 700 &&
+    window.innerHeight > 540
+  ) {
+    paragraphDescription.style.textAlign = "center";
+  }
+}
+
+export {
+  mutationObserver,
+  changeHeading,
+  previousHeading,
+  showPreviousBooks,
+  bookDataHandler,
+  measureTextLength,
+};

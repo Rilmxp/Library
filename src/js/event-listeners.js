@@ -12,7 +12,8 @@ import {
 } from "./http-requests";
 import { changeHeading, previousHeading } from "./helpers";
 
-// Creates listener for form to trigger upon submission.
+// form SubmissionListner() Creates listener for form to trigger upon submission.
+
 function formSubmissionListener() {
   const formSearchSubject = document.querySelector("form");
   const inputSearchSubject = document.querySelector("#input-search-subject");
@@ -77,11 +78,6 @@ function formSubmissionListener() {
         booksLoaded = true;
       }
 
-      // needed only in case of trending books fetch failure. So form validity succeds and you can search for book subjects. Otherwise form will reject input with "books still loading" invalid feedback.
-      // if (noBooks) booksLoaded = true;
-
-      console.log("booksLoaded after", booksLoaded);
-
       // check input field not empty and all books created. Otherwise cannot submit
       if (!subject) {
         inputSearchSubject.setCustomValidity("Please, enter a book subject");
@@ -100,6 +96,7 @@ function formSubmissionListener() {
 }
 
 // createBookContainerListener creates a listener on .book-container so when user clicks on a book, book description will be shown and .book-container layout will change
+
 function BookContainerListener() {
   booksContainer.addEventListener("click", function (event) {
     let target = event.target.closest(".book");

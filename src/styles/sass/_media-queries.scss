@@ -25,9 +25,7 @@
     justify-content: space-around;
     flex-wrap: wrap;
     row-gap: 1.5rem;
-    /* gap: 1rem; */
     padding: 0.75rem 1rem 1rem 1rem;
-    /* grid-auto-flow: column; */
     justify-items: center;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
@@ -92,60 +90,6 @@
   }
 }
 
-/*
-@media only screen and (min-width: 1400px) {
-  #input-search-subject,
-  #button-search-subject {
-    height: 3.5rem;
-    font-size: 2rem;
-  }
-
-  h1 {
-    font-size: 3.5rem;
-  }
-
-  h4 {
-    font-size: 2.3rem;
-  }
-
-  .book-title {
-    h6 {
-      font-size: 1.2rem;
-    }
-  }
-  .book-author {
-    p {
-      font-size: 1.2rem;
-    }
-  }
-
-  .book-cover-message {
-    font-size: 1.2rem;
-  }
-
-  .book-description {
-    font-size: 1.5rem;
-  }
-
-  .spinner {
-    width: 100px;
-    height: 100px;
-    border-width: 20px;
-  }
-
-  .page-footer .links {
-    i {
-      font-size: 2.5rem;
-    }
-  }
-
-  .error-message {
-    font-size: 2rem;
-  }
-}
-
-*/
-
 // to improve landscape position in devices with a very low viewport HEIGHT.
 @media only screen and (max-height: 540px) {
   #input-search-subject {
@@ -172,14 +116,8 @@
   .book-title {
     h6 {
       font-size: 0.7rem;
-      // -webkit-line-clamp: 2;
     }
   }
-  // .book-author {
-  //   p {
-  //     -webkit-line-clamp: 2;
-  //   }
-  // }
 
   .spinner {
     width: 30px;
@@ -200,7 +138,6 @@
     margin: 0px 10%;
 
     .book-description {
-      //leave a margin of 2vw so it doesn't touch the Y scrollbar
       width: 58vw;
       position: absolute;
       top: 0;

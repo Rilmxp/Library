@@ -17,11 +17,10 @@
     // lift book
     margin-top: -10px;
 
-    // but only img gets loses opacity
+    // but only img loses opacity
     img {
       opacity: 0.8;
     }
-    // border: 2px solid black;
   }
 }
 
@@ -38,12 +37,8 @@
   }
 
   img {
-    // width: 100%;
     inline-size: 100%;
-    // object-fit: cover;
     height: 100%;
-    // border-top: 1px solid black;
-    // border-bottom: 1px solid black;
   }
 }
 

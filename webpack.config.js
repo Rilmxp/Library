@@ -1,6 +1,5 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   mode: "development",
@@ -30,10 +29,10 @@ module.exports = {
         test: /\.(sa|sc|c)ss$/,
         use: [
           {
-            loader: "style-loader",
+            loader: "style-loader", // inject styles into DOM
           },
           {
-            loader: "css-loader",
+            loader: "css-loader", // converts css to js but do not apply styles.
           },
           {
             loader: "postcss-loader",
@@ -44,7 +43,7 @@ module.exports = {
             },
           },
           {
-            loader: "sass-loader",
+            loader: "sass-loader", // turns sass into css
           },
         ],
       },
@@ -62,12 +61,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "Library",
       filename: "index.html",
-      template: "src/index.html",
+      template: "src/index.html", // gets the template form path
     }),
-    new Dotenv(),
   ],
-  optimization: {
-    //for when you have >1 entrypoint on single HTML
-    runtimeChunk: "single",
-  },
 };

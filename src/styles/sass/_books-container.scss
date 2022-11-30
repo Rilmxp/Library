@@ -12,8 +12,6 @@
 }
 
 #button-search-subject {
-  // height: 1.5rem;
-  // font-size: 0.7rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,15 +29,9 @@
   margin: 0 auto;
   padding: 0.5rem;
   opacity: 0;
-  // visibility: hidden;
   display: inline;
   border-bottom: 1.5px solid white;
-  // text-decoration: underline lightslategray;
   text-align: center;
-  // opacity: 1;
-  // animation: fade 1s ease reverse;
-  // transition: fade 1s ease reverse;
-  // transition: opacity 3s;
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -47,7 +39,6 @@
 .input-group {
   width: 80%;
   margin: 0.3rem auto auto auto;
-  // font-size: inherit;
 }
 
 .invalid-feedback {
@@ -57,7 +48,6 @@
 // INNER CONTAINER //
 
 .books-container {
-  // background-image: url("../../assets/img/gulfer-ergin-LUGuCtvlk1Q-unsplash.jpg");
   position: relative;
   height: 60vh;
   margin-right: 5px;
@@ -71,8 +61,6 @@
 
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-
-  // font-size: inherit;
 }
 
 .scrollbar {
@@ -95,7 +83,6 @@
   border-radius: 30px;
   height: 60px;
   width: 60px;
-  // border: 0.1rem solid rgba(0, 0, 0, 0.16);
 }
 
 .books-container::-webkit-scrollbar-thumb:hover {
@@ -112,11 +99,8 @@
 
 // style for container after having selected a book //
 .books-container-selected {
-  // height: 60vh;
-  // width: 60vw;
   display: flex;
   justify-content: center;
-  // padding: 0.75rem 1rem 1rem 1rem;
   flex-wrap: wrap;
   overflow-y: auto;
 }
@@ -124,8 +108,5 @@
 // error message display inside book container //
 .error-message {
   @include center-content;
-  // display: flex;
-  // text-align: center;
-  // align-items: center;
   margin-bottom: 0;
 }

@@ -9,13 +9,17 @@ import _, { isEmpty } from "lodash";
 // imports of variables and functions
 import {
   createBook,
-  createAndAttachElement,
   createErrorMessage,
   createLoader,
   createBookDescription,
 } from "./page-creation";
 import { booksContainer, heading } from "./index";
-import { changeHeading, showPreviousBooks } from "./helpers";
+import {
+  changeHeading,
+  showPreviousBooks,
+  bookDataHandler,
+  measureTextLength,
+} from "./helpers";
 
 // stores books returned by http requests.
 let activeBooks = [];
@@ -31,8 +35,9 @@ function fetchDailyTrendingBooks() {
     .get("https://openlibrary.org/trending/daily.json")
     .then((res) => {
       const books = res.data.works;
-      activeBooks = books;
-      return books;
+      // process only half the books received (usually 100) to improve loading time.
+      activeBooks = books.slice(0, books.length / 2);
+      return activeBooks;
     })
     .then((books) => {
       //remove loader
@@ -184,53 +189,7 @@ function fetchBookDescription() {
   }
 }
 
-/// Handling of missing data for each book
-// NOTE: Some APIs send authors back as an array of objects ("authors") or as an simiple array ("author_name"). Covers either as "cover_i" or "cover_id". "customAuthorsProp" and "customCoverLinkProp" have been created and added to objects to ease the handling of data.
-function bookDataHandler(book) {
-  return new Promise(function (resolve, reject) {
-    // TITLE //
-    if (!book.title || _.isEmpty(book.title))
-      book.title = "Book title not available";
-
-    // AUTHORS //
-    let customAuthorsProp = book.authors ?? book.author_name;
-    book.customAuthorsProp = customAuthorsProp;
-
-    if (!book.customAuthorsProp || _.isEmpty(book.customAuthorsProp))
-      book.customAuthorsProp = "Book author not available";
-
-    // if array of objects
-    if (book.authors) {
-      for (let i = 0; i < book.authors.length; i++) {
-        customAuthorsProp[i] = book.authors[i].name;
-      }
-    }
-
-    // add space after each comma.
-    if (
-      Array.isArray(book.customAuthorsProp) &&
-      book.customAuthorsProp.length > 1
-    ) {
-      book.customAuthorsProp = book.customAuthorsProp.join(", ");
-    }
-
-    // COVER //
-    let customCoverLinkProp = book.cover_id ?? book.cover_i;
-    book.customCoverLinkProp = customCoverLinkProp;
-
-    // set cover_default if cover doesn't exist
-    if (!book.customCoverLinkProp) {
-      // book.customCoverLinkProp = cover_default;
-      resolve(book);
-    } else {
-      fetchBookCover(book).then(() => {
-        resolve(book);
-      });
-    }
-  });
-}
-
-// handling and fetching of book cover
+/////  FETCH BOOK COVER   /////
 function fetchBookCover(book) {
   return (
     axios
@@ -238,51 +197,24 @@ function fetchBookCover(book) {
         `https://covers.openlibrary.org/b/id/${book.customCoverLinkProp}-L.jpg?default=false`
       )
       .then((response) => {
-        book.customCoverLinkProp = `https://covers.openlibrary.org/b/id/${book.customCoverLinkProp}-L.jpg`;
-        // book.customCoverLinkProp = coverLink;
-        return book;
+        // if successful response
+        if (response.status == 200) {
+          book.customCoverLinkProp = `https://covers.openlibrary.org/b/id/${book.customCoverLinkProp}-L.jpg`;
+          return book;
+        }
       })
-      // image not found create book with default cover
+      // image not found create book with cover_default
       .catch((error) => {
-        // book.customCoverLinkProp = cover_default;
         return book;
       })
   );
-}
-
-// Measures books description text in pixels to text-aling:center if too short. Otherwise default text-align:left will remain.
-function measureTextLength() {
-  let paragraphDescription = document.querySelector(".book-description");
-
-  // gets some display's handy computed properties
-  let paragraphCssProp = window.getComputedStyle(paragraphDescription);
-  let paragraphFontSize = paragraphCssProp.getPropertyValue("font-size");
-
-  // creates a temporary span to measure size of new num setting font properties same as display's
-  let ruler = createAndAttachElement(
-    "span",
-    { style: `font-size: ${paragraphFontSize};` },
-    "body",
-    "afterbegin",
-    paragraphDescription.innerHTML
-  );
-
-  let rulerWidth = ruler.getBoundingClientRect().width;
-  ruler.remove();
-
-  if (
-    rulerWidth < paragraphDescription.offsetWidth &&
-    window.innerWidth < 700 &&
-    window.innerHeight > 540
-  ) {
-    paragraphDescription.style.textAlign = "center";
-  }
 }
 
 export {
   fetchDailyTrendingBooks,
   fetchBooksBySubject,
   fetchBookDescription,
+  fetchBookCover,
   activeBooks,
   noBooks,
 };
