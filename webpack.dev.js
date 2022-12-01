@@ -1,16 +1,16 @@
 const path = require("path");
+const common = require("./webpack.common");
+const { merge } = require("webpack-merge"); // needed for merging webpack config files.
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
+module.exports = merge(common, {
   mode: "development",
-  entry: {
-    bundle: path.resolve(__dirname, "src/js/index.js"),
-  },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].[contenthash].js",
-    clean: true, // erases contents of dist before creating output files.
-    assetModuleFilename: "[name][ext]", // img.png instead of [hash][ext]
+    filename: "[name].js",
+    // clean: true, // erases contents of dist before creating output files.
+    // assetModuleFilename: "[name][ext]", // img.png instead of [hash][ext]
   },
   devtool: "source-map",
   devServer: {
@@ -31,6 +31,7 @@ module.exports = {
           {
             loader: "style-loader", // inject styles into DOM
           },
+
           {
             loader: "css-loader", // converts css to js but do not apply styles.
           },
@@ -47,21 +48,14 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
-        type: "asset/resource",
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: "asset/resource",
-      },
     ],
   },
+
   plugins: [
     new HtmlWebpackPlugin({
       title: "Library",
       filename: "index.html",
-      template: "src/index.html", // gets the template form path
+      template: "src/template.hbs", // gets the template form path
     }),
   ],
-};
+});

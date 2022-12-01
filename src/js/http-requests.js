@@ -4,7 +4,7 @@
 
 // imports of external libraries
 import axios from "axios";
-import _, { isEmpty } from "lodash";
+import { _isEmpty } from "lodash";
 
 // imports of variables and functions
 import {

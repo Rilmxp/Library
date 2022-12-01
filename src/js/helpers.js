@@ -3,6 +3,7 @@
 import { heading } from "./index";
 import { fetchBookCover } from "./http-requests";
 import { createAndAttachElement } from "./page-creation";
+import { _isEmpty } from "lodash";
 
 let previousHeading;
 
