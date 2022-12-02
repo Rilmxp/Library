@@ -101,7 +101,7 @@ window.addEventListener("resize", function () {
     setTimeout(() => {
       initialWidth = currentWidth;
       initialHeight = currentHeight;
-    }, 500);
+    }, 600);
   }
 });
 
