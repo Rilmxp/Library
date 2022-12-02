@@ -139,6 +139,7 @@ const initialElements = [
       type: "text",
       class: "form-control has-validation",
       id: "input-search-subject",
+      onfocus: "this.value=''",
       placeholder: "Book Subject",
       "aria-label": "Book Subject",
       "aria-describedby": "button-search-subject",
