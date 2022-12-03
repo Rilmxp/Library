@@ -83,7 +83,7 @@ Users can click on books anytime and their description will be displayed on the 
     - helpers.js:
       contains all kinds of functions used by the other scripts that do NOT create elements, event listeners or fetch APIs (changeHeading, bookDataHandler, for eg)
 
-    Information about functions can be found directly on the source code.
+  - Information about functions can be found directly on the source code.
 
 - CSS/SASS:
 
