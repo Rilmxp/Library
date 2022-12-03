@@ -58,89 +58,51 @@ Users can click on books anytime and their description will be displayed on the 
     - Webpack configuration files divided into .common.js, .dev.js and .prod.js
 
     - src folder containing: 
-        - assets for fontAwesome files and images.
-        - 
+        - assets folder for fontAwesome, fonts and images.
+        - styles
 
 
 
 ## Technologies / libraries / external resources
 
-- HTML
+-Webpack: 
+    - configuration files divided into .common.js, .dev.js and .prod.js
+    - css, javascript and html files have been minified and hashed as per best practices.
+
+- HTML: 
+    - A Handlebars template has been created to dinamically insert the title to the document.
 
 - Javascript:
 
-  - Two javascript files:
+  - Five javascript files:
+    
+    - index.js: Webpack's entry point. DOM will be generated from this file and element variables will be created and exported for use of other functions in other files. All event listeners will be added to elements from this file and also the initial fetch of daily trending books will be called.
 
-    - counter_creation.js for creating the counter section of the DOM.
-    - counter_operations to make the counter works.
+    - page-creation.js: contains only functions to create all sort of elements (books, loader spinner, messages). It also contains "initialElements" object which has all elements that will be create on page load.
 
-  - DOM Manipulation: addition/removal of classes, creation of pop-up messages and other elements both for building the DOM and to assist measurement of content in pixels ("ruler").
+    - event-listeners.js: to declutered index.js, all eventListeners have been wrapped in a function to be called directly on the entry point.
 
-  - createAndAttachElement() for creating and attaching elements to the DOM when needed. The sole function creates, attaches, add attributes (including classes), and writes content to elements. Parameters are explained directly on the source code on counter_creation.js
+    -http-requests.js: contains all necessary fetch functions. For fetching daily trending books, search books by subject, book description and covers.
 
-  - updateCounter() function takes care of all the operations whenever a button is pressed. This function consists of two additional internal functions that assist in completing such tasks:
+    -helpers.js: contains all kinds of functions used by the other scripts that do NOT create elements, event listeners or fetch APIs (changeHeading, bookDataHandler, for eg)
 
-    - errorMessageDisplay() triggers whenever the above behavioural conditions are not met.
+    Information about functions can be found directly on the source code.
 
-    - numBiggerThanDisplaySize() triggers whenever user presses the "+" button. It makes the standard addition operation but instead of updating the counter's display, it creates a "ruler" to measure the resulting number in pixels. It then compares it with the content width of the display, and if it does not fit in this one, errorMessageDisplay() will trigger. Element sizes where taken using both elem.clientWidth and Elem.getBoundingRect() (this one on a &lt;span&gt; as clientWidht() cannot be used on such element)
-
-    - a setTimeOut() function was also implemented to assist in color change of numbers (from green or red back to normal), whenever the display is updated.
-
-    - "click" event on buttons is handled with Event Delegation.
-
-    - Additional notes on the above functions can be found directly on the code itself on counter_operations.js.
 
 - CSS/SASS:
 
-  - SASS partials are organized both by group of elements (\_links, \_counter-elements) or scope (\_config, \_media queries).
-  - CSS msg-fade-in animation for feedback messages made with @keyframes
+  - SASS partials are organized either by group of elements (_footer-section, _books, ...) or scope (_config, _media queries).
 
 - Font-Awesome:
+  - installed via Webpack
   - Icons for Github and Briefcase(&lt;a&gt; to my Portfolio).
+
+- Bootstrap:
+    - Installed via Webpack
+    - Forms (Searchbox - input-group -). Invalid feedback message. Form validity has been customized with setCustomValidity via javascript inside the formSubmissionListener.
 
 ## Responsiveness:
 
-- max-height: 450px. set specifically for devices with a very low viewport height so all elements fit comfortably on the page.
-- min-widht: 700px and min-height: 451px. It updates Buttons' layout and their order on the page as well as it upscales elements and font sizes.
-- min-width: 1400px. Sets elements to a fixed width so they do not stretch indefinitely.
+Since the width of the book elements has been set with vw unit many breakpoints have been set in small increments (500px, 600px, 700px, 950px, 1100px). A specific media query has been set for max-height: 540px to improve landscape view in devices with a very low viewport height.
 
-
-
-
-Files: 
-
-- pageContentsCreation.js: page for creating and attaching elements.
-
-- requests to https://openlibrary.org/subjects/
-
-
-search box + button:
-
-Workflow:
-    - search box typing:
-
-        - btn click:
-
-            if valid genre:
-
-                -fetch API subjects.
-                    - if success:
-                        - display books
-                            - on book click:
-                                - fetch https://openlibrary.org/works/{key}
-                                - remove all other books.
-                                - move chosen book center, change page layout, dispaly response
-                                
-                    - if failure:
-                        - pop up. Pls try again later.
-                        
-
-review code.
-consider putting an anchor to first book by clicling on h1 library
-go to home, trending books when pressing on library, maybe using local storage.
-when landscape let footer go down.
-
-When loading books users can however interact with the already loaded books if they get msg books still loading
-
-fix-tagname
 

@@ -9,8 +9,6 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
-    // clean: true, // erases contents of dist before creating output files.
-    // assetModuleFilename: "[name][ext]", // img.png instead of [hash][ext]
   },
   devtool: "source-map",
   devServer: {
