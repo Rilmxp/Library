@@ -35,7 +35,7 @@ const faviconHtml = document.querySelector("link[rel~='icon']");
 
 // event listeners
 import {
-  BookContainerListener,
+  bookContainerListener,
   formSubmissionListener,
   screenResizeListener,
 } from "./event-listeners";
@@ -53,7 +53,7 @@ formSubmissionListener();
 fetchDailyTrendingBooks();
 
 // create the listener on bookContainer to trigger whenever user clicks on a book.
-BookContainerListener();
+bookContainerListener();
 
 // create listener to decrease layout distorsions on mobile when virtual keyboard is open.
 screenResizeListener();

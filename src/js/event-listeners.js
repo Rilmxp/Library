@@ -99,9 +99,9 @@ function formSubmissionListener() {
   });
 }
 
-// createBookContainerListener creates a listener on .book-container so when user clicks on a book, book description will be shown and .book-container layout will change
+// bookContainerListener creates a listener on .book-container so when user clicks on a book, book description will be shown and .book-container layout will change
 
-function BookContainerListener() {
+function bookContainerListener() {
   booksContainer.addEventListener("click", function (event) {
     let target = event.target.closest(".book");
     if (!target) return;
@@ -206,4 +206,4 @@ function screenResizeListener() {
   });
 }
 
-export { formSubmissionListener, BookContainerListener, screenResizeListener };
+export { formSubmissionListener, bookContainerListener, screenResizeListener };
