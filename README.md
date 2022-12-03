@@ -6,8 +6,6 @@ Library is an http-requests based website which fetches books and its contents o
 
 All http-requests are made to the Open Library APIs at https://openlibrary.org/developers/api
 
-The site is created programmatically with Javascript at loading.
-
 ## Description
 
 The website consists of a single page with a searchbox.
@@ -66,6 +64,8 @@ Users can click on books anytime and their description will be displayed on the 
 
 - Javascript:
 
+  - Website created programatically on page load.
+
   - Five javascript files:
 
     - index.js:
@@ -96,13 +96,13 @@ Users can click on books anytime and their description will be displayed on the 
 
 
 - Font-Awesome:
-  - installed via Webpack
+  - Selected components installed via Webpack
   - Icons for Github and Briefcase(&lt;a&gt; to my Portfolio).
 
 - Bootstrap:
-  - Installed via Webpack
-  - Forms (searchbox - input-group -). Invalid feedback message. Form validity has been customized with setCustomValidity() via javascript inside formSubmissionListener().
+  - Selected components installed via Webpack
+  - Forms component used for the searchbox. Form validity has been customized with setCustomValidity() via javascript inside formSubmissionListener().
 
 ## Responsiveness:
 
-Since the width of the book elements has been set with vw, unit many breakpoints have been set in small increments (500px, 600px, 700px, 950px, 1100px). A specific media query has been set for max-height: 540px to improve landscape view in devices with a very low viewport height.
+Since the width of the book elements has been set with vw unit, many breakpoints have been set in small increments (500px, 600px, 700px, 950px, 1100px). A specific media query has been set for max-height: 540px to improve landscape view in devices with a very low viewport height.
