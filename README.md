@@ -6,11 +6,11 @@ Library is an http-requests based website which fetches books and its contents o
 
 The site is created programmatically with Javascript at loading.
 
-All http-requests are made to the Open Library APIs at https://openlibrary.org/developers/api 
+All http-requests are made to the Open Library APIs at https://openlibrary.org/developers/api
 
 ## Description
 
-The website consists of a single page with a search box. 
+The website consists of a single page with a search box.
 At page loading, the website will fetch the trending books of the day and display them on the screen.
 
 Users can search for books by providing a subject on the searchbox. Once the search has been submitted, books will be fetched and displayed on the screen.
@@ -23,59 +23,56 @@ Users can click on books anytime and their description will be displayed on the 
 
 - Searchbox submission:
 
-    - if empty string: a invalid feedback message will appear below the searbox ("Please enter a book subject").
+  - if empty string: a invalid feedback message will appear below the searbox ("Please enter a book subject").
 
-    - if books are still being loaded: an invalid feedback message will appear below the searchbox ("Books still loading, please try again later").
+  - if books are still being loaded: an invalid feedback message will appear below the searchbox ("Books still loading, please try again later").
 
-    - if valid input is provided, books fetch will be initiated.
+  - if valid input is provided, books fetch will be initiated.
 
-    - search button is deactivated for 3s after each submission to prevent undesireable behavour in the code triggered by user interaction.
+  - search button is deactivated for 3s after each submission to prevent undesireable behavour in the code triggered by user interaction.
 
 - Book fetch:
 
-    - A loader spinner will be displayed whenever a  fetch request is active. It will disappear as soon as a response from the API has been received.
+  - A loader spinner will be displayed whenever a fetch request is active. It will disappear as soon as a response from the API has been received.
 
-    - if the response is successful: books will be displayed, and headline will change ("love realted books", for eg).
+  - if the response is successful: books will be displayed, and headline will change ("love realted books", for eg).
 
-    - if the response is not sucessful or empty: current books will be hidden and a feedback message will be displayed on the book container. This message will remain for 3 seconds and, afterwards, previous hidden books and heading will be shown back again.
+  - if the response is not sucessful or empty: current books will be hidden and a feedback message will be displayed on the book container. This message will remain for 3 seconds and, afterwards, previous hidden books and heading will be shown back again.
 
-    - Depending on the response from the different APIs the displayed book be displayed as follows:
+  - Depending on the response from the different APIs the displayed book be displayed as follows:
 
-        - title: its actual title or "Book title not available"
-        - book cover: its actual image or a defaul image with message "book cover not available"
-        - authors: its actual author/s or "Author not available"
+    - title: its actual title or "Book title not available"
+    - book cover: its actual image or a defaul image with message "book cover not available"
+    - authors: its actual author/s or "Author not available"
 
 - Book description:
 
-    - Whenever user clicks on a book, its description will be provided.
+  - Whenever user clicks on a book, its description will be provided.
 
-    - On book click, all other books will be hidden, book container layout and heading will change.
+  - On book click, all other books will be hidden, book container layout and heading will change.
 
-    - Book desription will be fetched from API and, depending on response, its description will be displayed or, alternatively, "Book description not available".
+  - Book desription will be fetched from API and, depending on response, its description will be displayed or, alternatively, "Book description not available".
 
 ## Files structure
 
     - Webpack configuration files divided into .common.js, .dev.js and .prod.js
 
-    - src folder containing: 
+    - src folder containing:
         - assets folder for fontAwesome, fonts and images.
         - styles
 
-
-
 ## Technologies / libraries / external resources
 
--Webpack: 
-    - configuration files divided into .common.js, .dev.js and .prod.js
-    - css, javascript and html files have been minified and hashed as per best practices.
+-Webpack: - configuration files divided into .common.js, .dev.js and .prod.js - css, javascript and html files have been minified and hashed as per best practices.
 
-- HTML: 
-    - A Handlebars template has been created to dinamically insert the title to the document.
+- HTML:
+
+  - A Handlebars template has been created to dinamically insert the title to the document.
 
 - Javascript:
 
   - Five javascript files:
-    
+
     - index.js: Webpack's entry point. DOM will be generated from this file and element variables will be created and exported for use of other functions in other files. All event listeners will be added to elements from this file and also the initial fetch of daily trending books will be called.
 
     - page-creation.js: contains only functions to create all sort of elements (books, loader spinner, messages). It also contains "initialElements" object which has all elements that will be create on page load.
@@ -88,21 +85,19 @@ Users can click on books anytime and their description will be displayed on the 
 
     Information about functions can be found directly on the source code.
 
-
 - CSS/SASS:
 
-  - SASS partials are organized either by group of elements (_footer-section, _books, ...) or scope (_config, _media queries).
+  - SASS partials are organized either by group of elements (\_footer-section, \_books, ...) or scope (\_config, \_media queries).
 
 - Font-Awesome:
+
   - installed via Webpack
   - Icons for Github and Briefcase(&lt;a&gt; to my Portfolio).
 
 - Bootstrap:
-    - Installed via Webpack
-    - Forms (Searchbox - input-group -). Invalid feedback message. Form validity has been customized with setCustomValidity via javascript inside the formSubmissionListener.
+  - Installed via Webpack
+  - Forms (Searchbox - input-group -). Invalid feedback message. Form validity has been customized with setCustomValidity via javascript inside the formSubmissionListener.
 
 ## Responsiveness:
 
 Since the width of the book elements has been set with vw unit many breakpoints have been set in small increments (500px, 600px, 700px, 950px, 1100px). A specific media query has been set for max-height: 540px to improve landscape view in devices with a very low viewport height.
-
-
