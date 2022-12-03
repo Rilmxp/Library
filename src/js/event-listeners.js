@@ -201,7 +201,7 @@ function screenResizeListener() {
       setTimeout(() => {
         initialWidth = currentWidth;
         initialHeight = currentHeight;
-      }, 600);
+      }, 1000);
     }
   });
 }
