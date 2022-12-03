@@ -72,7 +72,7 @@ Users can click on books anytime and their description will be displayed on the 
       Webpack's entry point. DOM will be generated from this file and element variables will be created and exported for use of other functions in other files. All event listeners will be added to elements from this file and also the initial fetching of daily trending books will be called.
 
     - page-creation.js:
-      contains only functions to create all sort of elements (books, loader spinner, messages). It also contains "initialElements" object which has all elements that will be created on page load.
+      contains only functions to create all sort of elements (books, loader spinner, messages). It also contains "initialElements" array with objects that will create the elements on page load.
 
     - event-listeners.js:
       to decluter index.js, all eventListeners have been wrapped in a function to be called directly on the entry point.
