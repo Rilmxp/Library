@@ -25,12 +25,6 @@ initialElements.forEach((element) => {
   );
 });
 
-let metaViewport = document.querySelector("meta[name=viewport]");
-metaViewport.setAttribute(
-  "content",
-  "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-);
-
 // variables
 import { mutationObserver } from "./helpers";
 
@@ -43,6 +37,7 @@ const faviconHtml = document.querySelector("link[rel~='icon']");
 import {
   BookContainerListener,
   formSubmissionListener,
+  screenResizeListener,
 } from "./event-listeners";
 
 // for fetching trending books on page load.
@@ -60,49 +55,7 @@ fetchDailyTrendingBooks();
 // create the listener on bookContainer to trigger whenever user clicks on a book.
 BookContainerListener();
 
-// keyboard
-
-////////////////////////////////////////////////7
-
-//actual device sizes
-let initialHeight = window.innerHeight;
-let initialWidth = window.innerWidth;
-
-let inputField = document.querySelector("input");
-
-window.addEventListener("resize", function () {
-  let currentHeight = window.innerHeight;
-  let currentWidth = window.innerWidth;
-
-  if (initialWidth === currentWidth) {
-    // check if virtual keyboard is present (takes up part of the viewport's height)
-    if (currentHeight < initialHeight) {
-      metaViewport.setAttribute(
-        "content",
-        "height=" + initialHeight + "px, width=device-width, initial-scale=1.0"
-      );
-    } else {
-      metaViewport.setAttribute(
-        "content",
-        "width=device-width, initial-scale=1.0"
-      );
-    }
-  }
-
-  // if orientation has changed.
-  if (initialWidth !== currentWidth) {
-    if (document.hasFocus()) inputField.blur();
-
-    metaViewport.setAttribute(
-      "content",
-      "width=device-width, initial-scale=1.0"
-    );
-    // // new initial width and height.
-    setTimeout(() => {
-      initialWidth = currentWidth;
-      initialHeight = currentHeight;
-    }, 500);
-  }
-});
+// create listener to decrease layout distorsions on mobile when virtual keyboard is open.
+screenResizeListener();
 
 export { booksContainer, heading, containerObserver };

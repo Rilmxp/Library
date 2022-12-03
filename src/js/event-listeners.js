@@ -1,6 +1,6 @@
 "use strict";
 
-// file contains only event-listeners for <form> and .books-container
+// file contains ONLY event-listeners. These are for <form>, .books-container and screen resize.
 
 // imports
 import { containerObserver, booksContainer, heading } from "./index";
@@ -11,6 +11,10 @@ import {
   fetchBookDescription,
 } from "./http-requests";
 import { changeHeading, previousHeading } from "./helpers";
+
+// window size to be used by screenResizeListener() resize screen
+let initialHeight = window.innerHeight;
+let initialWidth = window.innerWidth;
 
 // form SubmissionListner() Creates listener for form to trigger upon submission.
 
@@ -155,4 +159,51 @@ function BookContainerListener() {
   });
 }
 
-export { formSubmissionListener, BookContainerListener };
+// func screenResizeListener decreases layout distorsions when virtual keyboard is open on mobile browsers.
+
+function screenResizeListener() {
+  window.addEventListener("resize", function () {
+    let metaViewport = document.querySelector("meta[name=viewport]");
+    let currentHeight = window.innerHeight;
+    let currentWidth = window.innerWidth;
+
+    // no change of orientation
+    if (initialWidth === currentWidth) {
+      // check if virtual keyboard is open (takes up part of the viewport's height)
+      if (currentHeight < initialHeight) {
+        // add height in pixels to viewport
+        metaViewport.setAttribute(
+          "content",
+          "height=" +
+            initialHeight +
+            "px, width=device-width, initial-scale=1.0"
+        );
+      } else {
+        //reset viewport if keyboard is closed.
+        metaViewport.setAttribute(
+          "content",
+          "width=device-width, initial-scale=1.0"
+        );
+      }
+    }
+
+    // if orientation has changed.
+    if (initialWidth !== currentWidth) {
+      // forcefully close keyboard to ease calculations.
+      if (document.hasFocus()) document.querySelector("input").blur();
+
+      // reset viewport
+      metaViewport.setAttribute(
+        "content",
+        "width=device-width, initial-scale=1.0"
+      );
+      // set new initial width and height. Delay is given to allow system to adjust automatic viewport values
+      setTimeout(() => {
+        initialWidth = currentWidth;
+        initialHeight = currentHeight;
+      }, 600);
+    }
+  });
+}
+
+export { formSubmissionListener, BookContainerListener, screenResizeListener };
