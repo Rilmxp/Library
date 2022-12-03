@@ -86,11 +86,16 @@ Users can click on books anytime and their description will be displayed on the 
   - Information about functions can be found directly on the source code.
 
 - CSS/SASS:
-
   - SASS partials are organized either by group of elements (\_footer-section, \_books, ...) or scope (\_config, \_media queries).
 
-- Font-Awesome:
+- Axios: 
+  - Used for http-requests
 
+- Lodash:
+  - ._isEmpty used for data handling of http-request responses.
+
+
+- Font-Awesome:
   - installed via Webpack
   - Icons for Github and Briefcase(&lt;a&gt; to my Portfolio).
 
