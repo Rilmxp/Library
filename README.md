@@ -21,13 +21,13 @@ Users can click on books anytime and their description will be displayed on the 
 
 - Searchbox submission:
 
-  - if empty string: a invalid feedback message will appear below the searchbox ("Please enter a book subject").
+  - if empty string: an invalid feedback message will appear below the searchbox ("Please enter a book subject").
 
   - if books are still being loaded: an invalid feedback message will appear below the searchbox ("Books still loading, please try again later").
 
   - if valid input is provided, books fetching will be initiated.
 
-  - search button is deactivated for 3s after each submission to prevent undesireable behavior in the code triggered by user interaction.
+  - search button is deactivated for 3s after each submission to prevent undesireable behaviour in the code triggered by user interaction.
 
 - Book fetching:
 
@@ -35,7 +35,7 @@ Users can click on books anytime and their description will be displayed on the 
 
   - if the response is successful: books will be displayed, and headline will change ("love related books", for eg).
 
-  - if the response is not sucessful or empty: current books will be hidden and a feedback message will be displayed on the book container. This message will remain for 3 seconds and, afterwards, previous hidden books and heading will be shown back again.
+  - if the response is not successful or empty: current books will be hidden and a feedback message will be displayed on the book container. This message will remain for 3 seconds and, afterwards, previous hidden books and heading will be shown back again.
 
   - Depending on the response from the different APIs the displayed book will be rendered as follows:
 
@@ -57,6 +57,7 @@ Users can click on books anytime and their description will be displayed on the 
 
   - configuration files divided into .common.js, .dev.js and .prod.js
   - css, javascript and html files have been minified and hashed as per best practices.
+  - images are loaded lazily via the "loading" attribute of the image tag.
 
 - HTML:
 
@@ -89,10 +90,10 @@ Users can click on books anytime and their description will be displayed on the 
   - SASS partials are organized either by group of elements (\_footer-section, \_books, ...) or scope (\_config, \_media queries).
 
 - Axios: 
-  - Used for http-requests
+  - Used for HTTP requests
 
 - Lodash:
-  - ._isEmpty used for data handling of http-request responses.
+  - ._isEmpty used for data handling of HTTP request responses.
 
 
 - Font-Awesome:
@@ -105,4 +106,4 @@ Users can click on books anytime and their description will be displayed on the 
 
 ## Responsiveness:
 
-Since the width of the book elements has been set with vw unit, many breakpoints have been set in small increments (500px, 600px, 700px, 950px, 1100px). A specific media query has been set for max-height: 540px to improve landscape view in devices with a very low viewport height.
+Since the width of the book elements has been set with vw unit, many breakpoints have been set in small increments (500px, 600px, 700px, 950px, 1100px). A specific media query has been set for "max-height: 540px" to improve landscape view in devices with a very low viewport height.
