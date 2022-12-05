@@ -2,9 +2,9 @@
 
 Link to website: https://rilmxp-library.netlify.app/
 
-Library is an http-requests based website which fetches books and its contents on demand.
+Library is an HTTP messages-based website which fetches books and its contents on demand.
 
-All http-requests are made to the Open Library APIs at https://openlibrary.org/developers/api
+All HTTP requests are made to the Open Library APIs at https://openlibrary.org/developers/api
 
 ## Description
 
