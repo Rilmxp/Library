@@ -57,11 +57,12 @@ Users can click on books anytime and their description will be displayed on the 
 
   - configuration files divided into .common.js, .dev.js and .prod.js
   - css, javascript and html files have been minified and hashed as per best practices.
-  - images are loaded lazily via the "loading" attribute of the image tag.
+  
 
 - HTML:
 
   - A Handlebars template has been created to dinamically inject the title into the document.
+  - images are loaded lazily via the "loading" attribute of the image tag.
 
 - Javascript:
 
