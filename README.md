@@ -5,7 +5,11 @@ Gentile start2impact coach:
 SOLO su macOS e iOs, la chiamata Axios per la descrizione dei libri non sta al momento funzionando.
 Non sono ancora riuscito a trovarne una soluzione.
 Nella speranza di ricevere assistenza ho pubblicato una domanda su stackoverflow ed il gruppo discord del corso.
+<<<<<<< HEAD
 Apprezzerei molto dei suggerimenti in merito.
+=======
+Apprezerei molto dei suggerimenti in merito.
+>>>>>>> 849a5c0de1a4e5ca1795eec23e7ffb508999de8d
 Il sito comunque funziona perfettamente su gli altri sistemi operativi.
 Grazie.
 
