@@ -145,6 +145,9 @@ function fetchBookDescription() {
     ".book-selected .book-title"
   ).innerText;
 
+  // remove line breaks (mainly for macOS/iOS)
+  bookTitle = bookTitle.replace(/(\r\n|\n|\r)/gm, "");
+
   heading.style.opacity = "0";
 
   // use book title to find book and its key to fetch description
