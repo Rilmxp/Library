@@ -31,7 +31,7 @@ function createAndAttachElement(
 
 function createBook(title, author, attachTo, imgUrl = cover_default) {
   const html = `
-  <div class="book book-fade-in">
+  <div class="book">
     <div class="book-title">
       <h6>${title}</h6>
     </div>
@@ -64,7 +64,7 @@ function createErrorMessage(message) {
 function createBookDescription(bookDescription) {
   createAndAttachElement(
     "p",
-    { class: "book-description fade-in" },
+    { class: "book-description" },
     ".book-selected",
     "beforeend",
     bookDescription

@@ -142,7 +142,7 @@ function bookContainerListener() {
       heading.style.opacity = "0";
       setTimeout(() => {
         changeHeading(previousHeading);
-      }, 500);
+      }, 400);
 
       // remove book description
       if (document.querySelector(".book-description")) {

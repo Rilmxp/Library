@@ -32,7 +32,10 @@
   display: inline;
   border-bottom: 1.5px solid white;
   text-align: center;
-  transition: opacity 0.3s ease-in-out;
+  animation: fade-in 0.5s ease;
+  // animation-delay: 0.5s;
+  // transition: opacity 0.3s ease-in-out;
+  // transition: all 0.3s ease-in-out;
 }
 
 // Searchbox, button and invalid input message.
@@ -109,4 +112,5 @@
 .error-message {
   @include center-content;
   margin-bottom: 0;
+  animation: fade-in 0.5s ease;
 }
