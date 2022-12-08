@@ -103,7 +103,6 @@ function formSubmissionListener() {
 
 function bookContainerListener() {
   booksContainer.addEventListener("click", function (event) {
-    event.preventDefault();
     let target = event.target.closest(".book");
     if (!target) return;
 

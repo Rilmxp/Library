@@ -152,13 +152,18 @@ function fetchBookDescription() {
   for (let activeBook of activeBooks) {
     if (activeBook.title === bookTitle) {
       console.log("before call inside loop", activeBook.title, bookTitle);
-      axios
-        .get(`https://openlibrary.org${activeBook.key}.json`)
-        .then((response) => {
-          console.log("response", response);
+      getdescription();
+      async function getdescription() {
+        let bookDescription;
+        try {
+          const response = await fetch(
+            `https://openlibrary.org${activeBook.key}.json`
+          );
+          let data = await response.json();
           changeHeading();
 
-          let bookDescription = response.data.description;
+          bookDescription = data.description;
+          console.log(bookDescription);
 
           // check for existence and string value
           if (!bookDescription || _.isEmpty(bookDescription)) {
@@ -173,20 +178,50 @@ function fetchBookDescription() {
               bookDescription = bookDescription.value;
             }
           }
-
-          return bookDescription;
-        })
-        .then((description) => {
-          createBookDescription(description);
-        })
-        .catch((error) => {
+          createBookDescription(bookDescription);
+          // return bookDescription;}
+        } catch (error) {
           createBookDescription("Book description not available");
-        })
-        .finally(() => {
-          // if text description too short text-align center instead of left
+        } finally {
           measureTextLength();
-        });
-      // exit loop in case of more than 1 same book title exists with different editions so description doesn't get duplicated.
+        }
+
+        // axios
+        //   .get(`https://openlibrary.org${activeBook.key}.json`)
+        // .then((response) => {
+        //   console.log("response", response);
+        // changeHeading();
+
+        // let bookDescription = response.data.description;
+
+        // // check for existence and string value
+        // if (!bookDescription || _.isEmpty(bookDescription)) {
+        //   bookDescription = "Book description not available";
+        // }
+
+        // // if {}
+        // if (typeof bookDescription === "object") {
+        //   if (_.isEmpty(bookDescription.value)) {
+        //     bookDescription = "Book description not available";
+        //   } else {
+        //     bookDescription = bookDescription.value;
+        //   }
+        // }
+
+        // return bookDescription;
+        // })
+        // .then((description) => {
+        //   createBookDescription(description);
+        // })
+        // .catch((error) => {
+        //   createBookDescription("Book description not available");
+        // })
+        // .finally(() => {
+        //   // if text description too short text-align center instead of left
+        //   measureTextLength();
+        // });
+        // exit loop in case of more than 1 same book title exists with different editions so description doesn't get duplicated.
+      }
       break;
     }
   }
