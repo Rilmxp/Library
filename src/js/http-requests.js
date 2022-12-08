@@ -144,14 +144,15 @@ function fetchBookDescription() {
   let bookTitle = document.querySelector(
     ".book-selected .book-title"
   ).innerText;
-  console.log("before call outside loop - bookTitle", bookTitle);
+  console.log("bookTitle - outside loop", bookTitle);
 
   heading.style.opacity = "0";
 
   // use book title to find book and its key to fetch description
   for (let activeBook of activeBooks) {
+    console.log("FOR activeBook", activeBook) 
     if (activeBook.title === bookTitle) {
-      console.log("before call inside loop", activeBook.title, bookTitle);
+      console.log("IF == activeBook, bookTitle", activeBook.title, bookTitle);
       getdescription();
       async function getdescription() {
         let bookDescription;
@@ -222,6 +223,7 @@ function fetchBookDescription() {
         // });
         // exit loop in case of more than 1 same book title exists with different editions so description doesn't get duplicated.
       }
+      console.log("BREAK")
       break;
     }
   }
