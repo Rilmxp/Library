@@ -144,15 +144,18 @@ function fetchBookDescription() {
   let bookTitle = document.querySelector(
     ".book-selected .book-title"
   ).innerText;
+  console.log("before call outside loop - bookTitle", bookTitle);
 
   heading.style.opacity = "0";
 
   // use book title to find book and its key to fetch description
   for (let activeBook of activeBooks) {
     if (activeBook.title === bookTitle) {
+      console.log("before call inside loop", activeBook.title, bookTitle);
       axios
         .get(`https://openlibrary.org${activeBook.key}.json`)
         .then((response) => {
+          console.log("response", response);
           changeHeading();
 
           let bookDescription = response.data.description;
