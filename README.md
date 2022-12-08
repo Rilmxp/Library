@@ -1,3 +1,17 @@
+## Important update 08.12
+
+Gentile start2impact coach:
+
+SOLO su macOS e iOs, la chiamata Axios per la descrizione dei libri non sta al momento funzionando.
+Non sono ancora riuscito a trovarne una soluzione.
+Nella speranza di ricevere assistenza ho pubblicato una domanda su stackoverflow ed il gruppo discord del corso.
+Apprezerei molto dei suggerimenti in merito.
+Il sito comunque funziona perfettamente su gli altri sistemi operativi.
+Grazie.
+
+link to stackoverflow query
+https://stackoverflow.com/questions/74734774/axios-http-request-doesnt-trigger-on-macos-ios-only
+
 # Library
 
 Link to website: https://rilmxp-library.netlify.app/
@@ -57,7 +71,6 @@ Users can click on books anytime and their description will be displayed on the 
 
   - configuration files divided into .common.js, .dev.js and .prod.js
   - css, javascript and html files have been minified and hashed as per best practices.
-  
 
 - HTML:
 
@@ -88,16 +101,19 @@ Users can click on books anytime and their description will be displayed on the 
   - Information about functions can be found directly on the source code.
 
 - CSS/SASS:
+
   - SASS partials are organized either by group of elements (\_footer-section, \_books, ...) or scope (\_config, \_media queries).
 
-- Axios: 
+- Axios:
+
   - Used for HTTP requests
 
 - Lodash:
-  - ._isEmpty used for data handling of HTTP request responses.
 
+  - .\_isEmpty used for data handling of HTTP request responses.
 
 - Font-Awesome:
+
   - Selected components installed via Webpack
   - Icons for Github and Briefcase(&lt;a&gt; to my Portfolio).
 
