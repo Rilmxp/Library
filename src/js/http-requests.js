@@ -146,11 +146,13 @@ function fetchBookDescription() {
   ).innerText;
   console.log("bookTitle - outside loop", bookTitle);
 
+  bookTitle = bookTitle.replace(/(\r\n|\n|\r)/gm, "");
+
   heading.style.opacity = "0";
 
   // use book title to find book and its key to fetch description
   for (let activeBook of activeBooks) {
-    console.log("FOR activeBook", activeBook) 
+    console.log("FOR activeBook", activeBook);
     if (activeBook.title === bookTitle) {
       console.log("IF == activeBook, bookTitle", activeBook.title, bookTitle);
       getdescription();
@@ -223,7 +225,7 @@ function fetchBookDescription() {
         // });
         // exit loop in case of more than 1 same book title exists with different editions so description doesn't get duplicated.
       }
-      console.log("BREAK")
+      console.log("BREAK");
       break;
     }
   }
