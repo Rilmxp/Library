@@ -2,9 +2,9 @@
 
 Link to website: https://rilmxp-library.netlify.app/
 
-Library is an HTTP messages-based website which fetches books and its contents on demand.
+A book search website created entirely with JavaScript that fetches books and their descriptions on demand. It promotes book reading as per the UN's Quality Education goal.
 
-All HTTP requests are made to the Open Library APIs at https://openlibrary.org/developers/api
+All async requests are made to the Open Library APIs at https://openlibrary.org/developers/api
 
 ## Description
 
