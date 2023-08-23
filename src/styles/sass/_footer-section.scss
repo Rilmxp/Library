@@ -6,18 +6,19 @@
   border-top: 1px solid white;
   background-color: #d5bdaf;
 
-  .links {
     a {
-      color: white;
+      display: flex;
+      justify-content: center;
+      width: 20%;
+      padding-top: 1vh;
 
-      &:hover {
-        color: #393330;
+      img {
+        max-height: 30px;
+
       }
+
     }
 
-    i {
-      padding: 0 1rem;
-      font-size: 1.75rem;
-    }
-  }
+
 }
+

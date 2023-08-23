@@ -3,6 +3,7 @@
 // File contains all functions and objects to create DOM elements.
 
 import cover_default from "../assets/img/cover_default.jpg";
+import protonicoLogo from "../assets/img/brand-white.svg";
 import { booksContainer } from "./index";
 
 // func createAndAttachElement creates an element and attatches it to another one.
@@ -172,48 +173,31 @@ const initialElements = [
     attachTo: "body",
     position: "beforeend",
   },
+  // {
+  //   tagName: "div",
+  //   attributes: { class: "links" },
+  //   attachTo: "footer",
+  //   position: "beforeend",
+  // },
   {
-    tagName: "div",
-    attributes: { class: "links" },
+    tagName: "a",
+    attributes: {
+      href: "https://protonicouy.com/",
+      target: "_blank",
+      title: "Protonico official website",
+    },
     attachTo: "footer",
+    // attachTo: ".links",
     position: "beforeend",
   },
   {
-    tagName: "a",
+    tagName: "img",
     attributes: {
-      href: "https://github.com/Rilmxp/Library",
-      target: "_blank",
-      title: "Github",
+      class: "protonicoBrand",
+      src: `${protonicoLogo}`,
+      alt:"Protononico's logo"
     },
-    attachTo: ".links",
-    position: "beforeend",
-  },
-  {
-    tagName: "i",
-    attributes: {
-      class: "fa-brands fa-github",
-    },
-    attachTo: "a[title='Github']",
-    position: "beforeend",
-  },
-
-  {
-    tagName: "a",
-    attributes: {
-      href: "https://rilmxp.github.io/Portfolio/",
-      target: "_blank",
-      title: "Portfolio",
-    },
-    attachTo: ".links",
-    position: "beforeend",
-  },
-
-  {
-    tagName: "i",
-    attributes: {
-      class: "fa-solid fa-briefcase",
-    },
-    attachTo: "a[title='Portfolio']",
+    attachTo: "a[title='Protonico official website']",
     position: "beforeend",
   },
 ];
