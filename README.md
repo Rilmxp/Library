@@ -2,7 +2,7 @@
 
 Link to website: https://rilmxp-library.netlify.app/
 
-A book search website created entirely with JavaScript that fetches books and their descriptions on demand. It promotes book reading as per the UN's Quality Education goal.
+A dynamic book search website built with JavaScript and optimized using Webpack. The site fetches books and their descriptions through APIs
 
 All async requests are made to the Open Library APIs at https://openlibrary.org/developers/api
 
